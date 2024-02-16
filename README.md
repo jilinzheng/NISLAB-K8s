@@ -16,3 +16,5 @@
 - [Python JSON to CSV](https://blog.enterprisedna.co/python-convert-json-to-csv/)
 - [K8s Monitoring Repo](https://github.com/camilb/prometheus-kubernetes)
 - [Resource Usage Queries](https://stackoverflow.com/questions/40327062/how-to-calculate-containers-cpu-usage-in-kubernetes-with-prometheus-as-monitori)
+- [Flatteing JSON](https://towardsdatascience.com/flattening-json-objects-in-python-f5343c794b10)
+- [More Resource Metrics](https://medium.com/cloud-native-daily/monitoring-kubernetes-pods-resource-usage-with-prometheus-and-grafana-c17848febadc)
