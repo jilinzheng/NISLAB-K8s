@@ -15,3 +15,5 @@
 - [Python JSON to CSV](https://blog.enterprisedna.co/python-convert-json-to-csv/)
 - [K8s Monitoring Repo](https://github.com/camilb/prometheus-kubernetes)
 - [Resource Usage Queries](https://stackoverflow.com/questions/40327062/how-to-calculate-containers-cpu-usage-in-kubernetes-with-prometheus-as-monitori)
+- [K8s Deployment YAML Examples](https://codefresh.io/learn/kubernetes-deployment/kubernetes-deployment-yaml/)
+- [K8s Dev Guide for Beginners](https://www.youtube.com/playlist?list=PLHq1uqvAteVvUEdqaBeMK2awVThNujwMd)

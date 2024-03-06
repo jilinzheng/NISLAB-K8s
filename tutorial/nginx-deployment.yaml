@@ -1,0 +1,43 @@
+# comments for learning deployments, i.e. object that describes desired state
+
+# apiVersion, kind, metadata, and spec are required fields
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec: # only requires .spec.template and .spec.selector
+  selector: # must match .spec.template.metadata.labels; basically saying which pods this deployment controller manages
+    matchLabels:
+      app: nginx
+# replicas: 5 # optional field that defaults to 1; do NOT set if we are using HorizontalPodAutoscaler
+              # managed by K8s control plane automatically instead
+  strategy:
+    type: RollingUpdate
+#    rollingUpdate:
+#      maxUnavailable: 1
+#      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec: # pod spec, define what pod looks like for deployment
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            limits:
+              cpu: 500m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          ports:
+          - containerPort: 80
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: 80
+#            initialDelaySeconds: 5
+#            periodSeconds: 5
