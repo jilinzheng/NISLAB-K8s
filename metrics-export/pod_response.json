@@ -1,0 +1,32 @@
+{
+    "status": "success",
+    "data": {
+        "resultType": "vector",
+        "result": [
+            {
+                "metric": {
+                    "beta_kubernetes_io_arch": "amd64",
+                    "beta_kubernetes_io_os": "linux",
+                    "container": "nginx",
+                    "cpu": "total",
+                    "id": "/kubepods/besteffort/pod6e6ef785-6ab5-466f-9dd9-d1f23c47242d/63dff62535074abb1f711a038d1efa8d7b68464217d165d3fb7d6a2b28df254b",
+                    "image": "docker.io/library/nginx:latest",
+                    "instance": "nislab-user",
+                    "job": "kubernetes-cadvisor",
+                    "kubernetes_io_arch": "amd64",
+                    "kubernetes_io_hostname": "nislab-user",
+                    "kubernetes_io_os": "linux",
+                    "microk8s_io_cluster": "true",
+                    "name": "63dff62535074abb1f711a038d1efa8d7b68464217d165d3fb7d6a2b28df254b",
+                    "namespace": "default",
+                    "node_kubernetes_io_microk8s_controlplane": "microk8s-controlplane",
+                    "pod": "nginx-7854ff8877-qf62s"
+                },
+                "value": [
+                    1708053556.902,
+                    "0"
+                ]
+            }
+        ]
+    }
+}
