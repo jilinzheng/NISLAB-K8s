@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   annotations:
     deployment.kubernetes.io/revision: "2"
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "80"
-    prometheus.io/path: "/metrics"
+#    prometheus.io/scrape: "true"
+#    prometheus.io/port: "80"
+#    prometheus.io/path: "/metrics"
   generation: 2
   labels:
     app: nginx
