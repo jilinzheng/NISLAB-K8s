@@ -4,7 +4,7 @@
 
 - Prometheus: http://localhost:30000
 - Alertmanager: http://localhost:31000
-- Grafana: http://localhost:32000/login
+- Grafana: http://localhost:32000/login (user: admin, pass: admin)
 - JMeter: when executing a load test, must port-forward: `kubectl port-forward --address 0.0.0.0 pod/nginx-7854ff8877-qf62s 8080:80`
 
 ## References

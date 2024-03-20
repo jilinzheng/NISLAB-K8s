@@ -1,0 +1,3 @@
+rate(container_cpu_usage_seconds_total{image="docker.io/library/nginx:latest"}[1m])
+
+container_memory_working_set_bytes{image="docker.io/library/nginx:latest"}
