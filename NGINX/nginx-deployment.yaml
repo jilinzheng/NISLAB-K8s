@@ -3,9 +3,6 @@ kind: Deployment
 metadata:
   annotations:
     deployment.kubernetes.io/revision: "2"
-#    prometheus.io/scrape: "true"
-#    prometheus.io/port: "80"
-#    prometheus.io/path: "/metrics"
   generation: 2
   labels:
     app: nginx
@@ -28,19 +25,19 @@ spec:
         app: nginx
       annotations:
         prometheus.io/scrape: "true"
-        promtheus.io/port: "80"
+        prometheus.io/port: "80"
     spec:
       containers:
       - image: nginx
         imagePullPolicy: Always
         name: nginx
         resources:
-          limits:
-            cpu: 1000m
-            memory: 4G
-          requests:
+          limits: # cannot exceed
+            cpu: 500m
+            memory: 1G
+          requests: # used by kube-scheduler to decide which node to place pod on
             cpu: 100m
-            memory: 64Mi
+            memory: 64M
         ports:
           - containerPort: 80
         terminationMessagePath: /dev/termination-log
@@ -49,5 +46,4 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-#      terminationGracePeriodSeconds: 30
 
