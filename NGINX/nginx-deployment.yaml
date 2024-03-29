@@ -32,11 +32,8 @@ spec:
         imagePullPolicy: Always
         name: nginx
         resources:
-          limits: # cannot exceed
-            cpu: 500m
-            memory: 1G
           requests: # used by kube-scheduler to decide which node to place pod on
-            cpu: 100m
+            cpu: 500m
             memory: 64M
         ports:
           - containerPort: 80
