@@ -33,7 +33,9 @@ spec:
         name: nginx
         resources:
           requests: # used by kube-scheduler to decide which node to place pod on
-            cpu: 500m
+            cpu: 1000m
+            memory: 64M
+          limits:
             memory: 64M
         ports:
           - containerPort: 80
