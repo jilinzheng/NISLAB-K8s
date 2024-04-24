@@ -60,6 +60,13 @@ spec:
           image: descartesresearch/teastore-registry
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              cpu: "1200m"
+              memory: "512M"
+            limits:
+              memory: "512M"
+      
 ---
 apiVersion: v1
 kind: Service
@@ -110,6 +117,7 @@ spec:
           resources:
             requests:
               cpu: "900m"
+              memory: "512M"
             limits:
               memory: "512M"
 ---
@@ -158,6 +166,7 @@ spec:
           resources:
             requests:
               cpu: "900m"
+              memory: "512M"
             limits:
               memory: "512M"
 ---
@@ -206,6 +215,7 @@ spec:
           resources:
             requests:
               cpu: "1100m"
+              memory: "512M"
             limits:
               memory: "512M"
 ---
@@ -254,6 +264,7 @@ spec:
           resources:
             requests:
               cpu: "800m"
+              memory: "512M"
             limits:
               memory: "512M"
 ---
@@ -302,6 +313,7 @@ spec:
           resources:
             requests:
               cpu: "1200m"
+              memory: "512M"
             limits:
               memory: "512M"
 ---
