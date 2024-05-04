@@ -42,13 +42,13 @@ Examples:
 
 ## Modifying TeaStore Configurations
 
-To change the TeaStore deployments' settings (primarily resource requests/limits), I recommend using a text editor to modify the YAML file directly (all deployment/service configurations for TeaStore are stored in [teastore-clusterip.yaml](teastore-clusterip.yaml)). The resources of deployments are located in `spec.template.spec.containers.resources`. After modifying all of the desired deployments, save the file, and run
+To change the TeaStore deployments' settings (primarily resource requests/limits), I recommend using a text editor to modify the YAML file directly (all deployment/service configurations for TeaStore are stored in [teastore-clusterip.yaml](teastore/teastore-clusterip.yaml)). The resources of deployments are located in `spec.template.spec.containers.resources`. After modifying all of the desired deployments, save the file, and run
 
 `kubectl apply -f teastore-clusterip.yaml`
 
 in the command line (while being in the same directory as the configuration) to apply the new configuration(s) of the deployment(s).
 
-Similarly, to modify the policy of the Horizontal Pod Autoscaler, modify [teastore-hpa.yaml](teastore-hpa.yaml), save the file, and run
+Similarly, to modify the policy of the Horizontal Pod Autoscaler, modify [teastore-hpa.yaml](teastore/teastore-hpa.yaml), save the file, and run
 
 `kubectl apply -f teastore-hpa.yaml`
 
@@ -64,7 +64,7 @@ It is fine to edit and run load tests in the GUI mode, but as test plans grow, t
 
 Example:
 
-`jmeter -n -t teastore_browse.jmx -l results.jtl -e -o html_report`
+`jmeter -n -t`[`teastore_browse.jmx`](teastore/teastore_browse.jmx)`-l results.jtl -e -o html_report`
 
 Upon finishing the load test (assuming it is not in an infinite loop or has a specified thread lifetime), JMeter generates a detailed report of the results of the test in the specified directory (in the example above, the directory name is `html_report`). Simply open `index.html` file within the directory to view the report.
 
