@@ -1,5 +1,16 @@
 # NISLAB K8s Autoscaling Research
 
+## Table of Contents
+
+1. [Monitoring URLs](#monitoring-urls)
+    1. [Debugging](#debugging)
+2. [Useful `kubectl` Commands](#useful-kubectl-commands)
+3. [Modifying TeaStore Configurations](#modifying-teastore-configurations)
+4. [JMeter](#jmeter)
+    1. [Running Test Plans](#running-test-plans)
+    2. [Working with the Precise Throughput Timer](#working-with-the-precise-throughput-timer)
+5. [References (inexhaustive)](#references-inexhaustive)
+
 ## Monitoring URLs
 
 - Prometheus: http://localhost:30000
@@ -28,6 +39,20 @@ Examples:
 
 - `kubectl get deploy -n monitoring`: get all deployments of the monitoring namespace
 - `kubectl get pods --all-namespaces`: get pods across all namespaces
+
+## Modifying TeaStore Configurations
+
+To change the TeaStore deployments' settings (primarily resource requests/limits), I recommend using a text editor to modify the YAML file directly (all deployment/service configurations for TeaStore are stored in [teastore-clusterip.yaml](teastore-clusterip.yaml)). The resources of deployments are located in `spec.template.spec.containers.resources`. After modifying all of the desired deployments, save the file, and run
+
+`kubectl apply -f teastore-clusterip.yaml`
+
+in the command line (while being in the same directory as the configuration) to apply the new configuration(s) of the deployment(s).
+
+Similarly, to modify the policy of the Horizontal Pod Autoscaler, modify [teastore-hpa.yaml](teastore-hpa.yaml), save the file, and run
+
+`kubectl apply -f teastore-hpa.yaml`
+
+in the command line.
 
 ## JMeter
 
