@@ -17,7 +17,7 @@
           </elementProp>
           <elementProp name="num_user" elementType="Argument">
             <stringProp name="Argument.name">num_user</stringProp>
-            <stringProp name="Argument.value">7500</stringProp>
+            <stringProp name="Argument.value">10000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="ramp_up" elementType="Argument">
@@ -42,7 +42,7 @@
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YoYo">
         <stringProp name="ThreadGroup.num_threads">${num_user}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_up}</stringProp>
-        <longProp name="ThreadGroup.duration">1800</longProp>
+        <longProp name="ThreadGroup.duration">28800</longProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -124,19 +124,19 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
           <collectionProp name="CookieManager.cookies"/>
           <boolProp name="CookieManager.clearEachIteration">true</boolProp>
           <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Dummy Sampler">
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Dummy Sampler" enabled="true">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
           <stringProp name="ActionProcessor.duration">0</stringProp>
         </TestAction>
         <hashTree>
-          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="Precise Throughput Timer" enabled="false">
+          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="Precise Throughput Timer">
             <doubleProp>
               <name>allowedThroughputSurplus</name>
               <value>1.0</value>
@@ -149,7 +149,7 @@
               <savedValue>0.0</savedValue>
             </doubleProp>
             <intProp name="throughputPeriod">300</intProp>
-            <longProp name="duration">5400</longProp>
+            <longProp name="duration">28800</longProp>
             <intProp name="batchSize">1</intProp>
             <intProp name="batchThreadDelay">0</intProp>
             <longProp name="randomSeed">0</longProp>
@@ -157,7 +157,7 @@
           </PreciseThroughputTimer>
           <hashTree/>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
-            <stringProp name="ConstantTimer.delay">400000</stringProp>
+            <stringProp name="ConstantTimer.delay">500000</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
@@ -334,7 +334,7 @@
           </RegexExtractor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Product 2 to Cart">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Product 2 to Cart" enabled="true">
           <intProp name="HTTPSampler.connect_timeout">50000</intProp>
           <intProp name="HTTPSampler.response_timeout">30000</intProp>
           <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -387,15 +387,11 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="false">
-          <stringProp name="ConstantTimer.delay">330000</stringProp>
-        </ConstantTimer>
-        <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Customer Traffic" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Customer Traffic">
         <stringProp name="ThreadGroup.num_threads">${num_user}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_up}</stringProp>
-        <longProp name="ThreadGroup.duration">21600</longProp>
+        <longProp name="ThreadGroup.duration">28800</longProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -483,13 +479,13 @@
           <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Dummy Sampler" enabled="true">
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Dummy Sampler">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
           <stringProp name="ActionProcessor.duration">0</stringProp>
         </TestAction>
         <hashTree>
-          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="Precise Throughput Timer" enabled="true">
+          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="Precise Throughput Timer">
             <doubleProp>
               <name>allowedThroughputSurplus</name>
               <value>1.0</value>
@@ -502,7 +498,7 @@
               <savedValue>0.0</savedValue>
             </doubleProp>
             <intProp name="throughputPeriod">300</intProp>
-            <longProp name="duration">900</longProp>
+            <longProp name="duration">28800</longProp>
             <intProp name="batchSize">1</intProp>
             <intProp name="batchThreadDelay">0</intProp>
             <longProp name="randomSeed">0</longProp>
@@ -739,10 +735,6 @@
             </collectionProp>
           </elementProp>
         </HTTPSamplerProxy>
-        <hashTree/>
-        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="false">
-          <stringProp name="ConstantTimer.delay">330000</stringProp>
-        </ConstantTimer>
         <hashTree/>
       </hashTree>
     </hashTree>
