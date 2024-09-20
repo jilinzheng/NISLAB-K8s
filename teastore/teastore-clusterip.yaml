@@ -65,8 +65,8 @@ spec:
               cpu: "1200m"
               memory: "512M"
             limits:
+              cpu: "1200m"
               memory: "512M"
-      
 ---
 apiVersion: v1
 kind: Service
@@ -119,6 +119,7 @@ spec:
               cpu: "900m"
               memory: "512M"
             limits:
+              cpu: "900m"
               memory: "512M"
 ---
 apiVersion: v1
@@ -168,6 +169,7 @@ spec:
               cpu: "900m"
               memory: "512M"
             limits:
+              cpu: "900m"
               memory: "512M"
 ---
 apiVersion: v1
@@ -217,6 +219,7 @@ spec:
               cpu: "1100m"
               memory: "512M"
             limits:
+              cpu: "1100m"
               memory: "512M"
 ---
 apiVersion: v1
@@ -266,6 +269,7 @@ spec:
               cpu: "800m"
               memory: "512M"
             limits:
+              cpu: "800m"
               memory: "512M"
 ---
 apiVersion: v1
@@ -315,6 +319,7 @@ spec:
               cpu: "1200m"
               memory: "512M"
             limits:
+              cpu: "1200m"
               memory: "1024M"
 ---
 apiVersion: v1
