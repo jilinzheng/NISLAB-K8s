@@ -1,43 +1,54 @@
 """
-Query Prometheus HTTP API for specified metrics, and convert the json response into a csv file.
+Query Prometheus HTTP API for specified metrics
 """
 
 
-import time
-import json
 import requests
+import time
+from datetime import datetime
 import pandas as pd
-from flatten_json import flatten
+
 
 # Prometheus APIs
-PROM_QUERY_INSTANT_API = "http://localhost:32000/api/v1/query"
-PROM_QUERY_RANGE_API = "http://localhost:32000/api/v1/query_range"
+PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
+PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
 
-# Get the cumulative container cpu usage 
+# get the cumulative container cpu usage 
 params={"query":
         "sum(rate(container_cpu_usage_seconds_total{namespace='default'}[1m])) by (pod)",
         "start":
         f"{int(time.time()) - 3600}", # time from one hour ago
-        #1714534800,
+        #1714534800,                  # unix time
         "end":
         f"{int(time.time())}", # time now
-        #1714535700,
+        #1714535700,           # unix time
         "step":
         "1m"
 }
+res = requests.get(PROM_QUERY_RANGE_API, params=params).json()
 
-prom_response = requests.get(PROM_QUERY_RANGE_API, params=params).json()
 
-# Write json data to a json file to verify proper response
-with open("prom_response.json", 'w') as json_file:
-    json.dump(prom_response, json_file, indent=4)
+# extract desired data: podname, timestamp, and usage value
+res_data = res['data']['result']
+pods, timestamps, values = [], [], []
+for pod in res_data:
+    pod_name = pod['metric']['pod']
+    first_entry = True
+    for timestamp, value in pod['values']:
+        if first_entry:
+            pods.append(pod_name)
+            first_entry = False
+        else:
+            pods.append('')
+        timestamps.append(datetime.fromtimestamp(timestamp))
+        values.append(float(value))
 
-# Convert pod usage json to csv
-with open("prom_response.json", "r", encoding="utf8") as f:
-    prom_json = json.load(f)
-    prom_json = flatten(prom_json)
 
-    # Convert flattened json to csv
-    pd_dataframe = pd.Series(prom_json).to_frame()
-    pd_dataframe.to_csv("prom_response.csv", index=True)
+# create dataframe + write to excel
+df = pd.DataFrame({
+    'Pod': pods,
+    'Timestamp': timestamps,
+    'Value': values
+})
+df.to_excel('./prom_res.xlsx', index=False, engine='openpyxl')
