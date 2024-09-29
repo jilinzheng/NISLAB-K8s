@@ -13,16 +13,18 @@ import pandas as pd
 PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
 PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
+# start and end times of test result range
+START_TIME = ''      # specify unix start time
+END_TIME = ''        # specify end time
 
-# get the cumulative container cpu usage 
+
+# get the container cpu usage per pod
 params={"query":
         "sum(rate(container_cpu_usage_seconds_total{namespace='default'}[1m])) by (pod)",
         "start":
-        f"{int(time.time()) - 3600}", # time from one hour ago
-        #1714534800,                  # unix time
+        f'{START_TIME}',
         "end":
-        f"{int(time.time())}", # time now
-        #1714535700,           # unix time
+        f'{END_TIME}',
         "step":
         "1m"
 }
