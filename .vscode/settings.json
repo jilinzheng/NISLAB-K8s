@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "kubernetes://schema/v1%40service": "file:///c%3A/NISLAB/teastore/teastore-clusterip.yaml",
+        "kubernetes://schema/rbac.authorization.k8s.io/v1%40clusterrole": "file:///c%3A/NISLAB/monitoring-stack/Prometheus/prometheus-cluster-role.yaml"
+    }
+}

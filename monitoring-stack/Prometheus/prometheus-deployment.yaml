@@ -1,49 +1,49 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus
-  namespace: monitoring
-  labels:
-    app: prometheus
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: prometheus
-  template:
-    metadata:
-      labels:
+    name: prometheus
+    namespace: monitoring
+    labels:
         app: prometheus
-    spec:
-      containers:
-        - name: prometheus
-          image: prom/prometheus
-          args:
-            - "--config.file=/etc/prometheus/prometheus.yml"
-            - "--storage.tsdb.path=/prometheus-pvc/"
-            - "--storage.tsdb.retention=15d"
-          resources:
-            requests:
-              cpu: "2"
-              memory: "8G"
-            limits:
-              memory: "8G"
-          ports:
-            - containerPort: 9090
-          volumeMounts:
-            - name: prometheus-config-volume
-              mountPath: /etc/prometheus/
-            #- name: prometheus-storage-volume
-            #  mountPath: /prometheus-ephemeral/
-            - name: prometheus-pvc
-              mountPath: /prometheus-pvc/
-      volumes:
-        - name: prometheus-config-volume
-          configMap:
-            defaultMode: 420
-            name: prometheus-conf
-        #- name: prometheus-storage-volume
-        #  emptyDir: {}
-        - name: prometheus-pvc
-          persistentVolumeClaim:
-            claimName: prometheus-pvc
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: prometheus
+    template:
+        metadata:
+            labels:
+                app: prometheus
+        spec:
+            containers:
+                - name: prometheus
+                  image: prom/prometheus
+                  args:
+                      - "--config.file=/etc/prometheus/prometheus.yml"
+                      - "--storage.tsdb.path=/prometheus-pvc/"
+                      - "--storage.tsdb.retention=15d"
+                  resources:
+                      requests:
+                          cpu: "2"
+                          memory: "8G"
+                      limits:
+                          memory: "8G"
+                  ports:
+                      - containerPort: 9090
+                  volumeMounts:
+                      - name: prometheus-config-volume
+                        mountPath: /etc/prometheus/
+                      #- name: prometheus-storage-volume
+                      #  mountPath: /prometheus-ephemeral/
+                      - name: prometheus-pvc
+                        mountPath: /prometheus-pvc/
+            volumes:
+                - name: prometheus-config-volume
+                  configMap:
+                      defaultMode: 420
+                      name: prometheus-conf
+                #- name: prometheus-storage-volume
+                #  emptyDir: {}
+                - name: prometheus-pvc
+                  persistentVolumeClaim:
+                      claimName: prometheus-pvc

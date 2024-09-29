@@ -10,19 +10,19 @@ import pandas as pd
 from flatten_json import flatten
 
 # Prometheus APIs
-PROM_QUERY_INSTANT_API = "http://localhost:30000/api/v1/query"
-PROM_QUERY_RANGE_API = "http://localhost:30000/api/v1/query_range"
+PROM_QUERY_INSTANT_API = "http://localhost:32000/api/v1/query"
+PROM_QUERY_RANGE_API = "http://localhost:32000/api/v1/query_range"
 
 
 # Get the cumulative container cpu usage 
 params={"query":
-        "sum(rate(container_cpu_usage_seconds_total{namespace='default'}[1m]))",
+        "sum(rate(container_cpu_usage_seconds_total{namespace='default'}[1m])) by (pod)",
         "start":
-        #f"{int(time.time()) - 3600}", # time from one hour ago
-        1714534800,
+        f"{int(time.time()) - 3600}", # time from one hour ago
+        #1714534800,
         "end":
-        #f"{int(time.time())}", # time now
-        1714535700,
+        f"{int(time.time())}", # time now
+        #1714535700,
         "step":
         "1m"
 }
