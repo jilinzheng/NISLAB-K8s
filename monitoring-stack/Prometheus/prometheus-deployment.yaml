@@ -21,7 +21,7 @@ spec:
                   args:
                       - "--config.file=/etc/prometheus/prometheus.yml"
                       - "--storage.tsdb.path=/prometheus-pvc/"
-                      - "--storage.tsdb.retention=15d"
+                      - "--storage.tsdb.retention=1y"
                   resources:
                       requests:
                           cpu: "2"
