@@ -19,9 +19,10 @@ spec:
                 - name: prometheus
                   image: prom/prometheus
                   args:
-                      - "--config.file=/etc/prometheus/prometheus.yml"
-                      - "--storage.tsdb.path=/prometheus-pvc/"
-                      - "--storage.tsdb.retention.time=1y"
+                      - --config.file=/etc/prometheus/prometheus.yml
+                      - --storage.tsdb.path=/prometheus-pvc/
+                      - --storage.tsdb.retention.time=1y
+                      - --web.enable-lifecycle
                   resources:
                       requests:
                           cpu: "2"

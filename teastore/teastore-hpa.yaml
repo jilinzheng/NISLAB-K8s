@@ -93,3 +93,10 @@ spec:
               target:
                   type: Utilization
                   averageUtilization: 80
+        - type: External
+          external:
+              metric:
+                  name: coinflip_result
+              target:
+                  type: Value
+                  averageValue: 1

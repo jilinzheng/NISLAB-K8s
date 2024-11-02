@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: coinflip-deployment
+    namespace: monitoring
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: coinflip-deployment
+    template:
+        metadata:
+            labels:
+                app: coinflip-deployment
+        spec:
+            containers:
+                - name: coinflip-deployment
+                  image: jilinnn/coinflip-server # Replace with your Docker image path.
+                  ports:
+                      - containerPort: 5000
