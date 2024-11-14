@@ -10,19 +10,19 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   metrics:
-    # - type: Resource
-    #   resource:
-    #     name: cpu
-    #     target:
-    #       type: Utilization
-    #       averageUtilization: 80
-    - type: External
-      external:
-        metric:
-          name: teastore_webui
+    - type: Resource
+      resource:
+        name: cpu
         target:
-          type: Value
-          value: "0.8" # CPUs
+          type: Utilization
+          averageUtilization: 80
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: teastore-db
+    #     target:
+    #       type: Value
+    #       value: "0.8" # CPUs
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -36,19 +36,19 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   metrics:
-    # - type: Resource
-    #   resource:
-    #     name: cpu
-    #     target:
-    #       type: Utilization
-    #       averageUtilization: 80
-    - type: External
-      external:
-        metric:
-          name: teastore_webui
+    - type: Resource
+      resource:
+        name: cpu
         target:
-          type: Value
-          value: "0.96" # CPUs
+          type: Utilization
+          averageUtilization: 80
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: teastore-registry
+    #     target:
+    #       type: Value
+    #       value: "0.96" # CPUs
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -62,19 +62,19 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   metrics:
-    # - type: Resource
-    #   resource:
-    #     name: cpu
-    #     target:
-    #       type: Utilization
-    #       averageUtilization: 80
-    - type: External
-      external:
-        metric:
-          name: teastore_webui
+    - type: Resource
+      resource:
+        name: cpu
         target:
-          type: Value
-          value: "0.72" # CPUs
+          type: Utilization
+          averageUtilization: 80
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: teastore-persistence
+    #     target:
+    #       type: Value
+    #       value: "0.72" # CPUs
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -88,19 +88,19 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   metrics:
-    # - type: Resource
-    #   resource:
-    #     name: cpu
-    #     target:
-    #       type: Utilization
-    #       averageUtilization: 80
-    - type: External
-      external:
-        metric:
-          name: teastore_webui
+    - type: Resource
+      resource:
+        name: cpu
         target:
-          type: Value
-          value: "0.72" # CPUs
+          type: Utilization
+          averageUtilization: 80
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: teastore-auth
+    #     target:
+    #       type: Value
+    #       value: "0.72" # CPUs
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -114,19 +114,19 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   metrics:
-    # - type: Resource
-    #   resource:
-    #     name: cpu
-    #     target:
-    #       type: Utilization
-    #       averageUtilization: 80
-    - type: External
-      external:
-        metric:
-          name: teastore_webui
+    - type: Resource
+      resource:
+        name: cpu
         target:
-          type: Value
-          value: "0.88" # CPUs
+          type: Utilization
+          averageUtilization: 80
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: teastore-image
+    #     target:
+    #       type: Value
+    #       value: "0.88" # CPUs
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -140,19 +140,19 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   metrics:
-    # - type: Resource
-    #   resource:
-    #     name: cpu
-    #     target:
-    #       type: Utilization
-    #       averageUtilization: 80
-    - type: External
-      external:
-        metric:
-          name: teastore_webui
+    - type: Resource
+      resource:
+        name: cpu
         target:
-          type: Value
-          value: "0.64" # CPUs
+          type: Utilization
+          averageUtilization: 80
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: teastore-recommender
+    #     target:
+    #       type: Value
+    #       value: "0.64" # CPUs
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
@@ -166,16 +166,16 @@ spec:
   minReplicas: 1
   maxReplicas: 30
   metrics:
-    # - type: Resource
-    #   resource:
-    #       name: cpu
-    #       target:
-    #           type: Utilization
-    #           averageUtilization: 80
-    - type: External
-      external:
-        metric:
-          name: teastore_webui
+    - type: Resource
+      resource:
+        name: cpu
         target:
-          type: Value
-          value: "0.96" # CPUs
+          type: Utilization
+          averageUtilization: 80
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: teastore_webui
+    #     target:
+    #       type: Value
+    #       value: "0.96" # CPUs
