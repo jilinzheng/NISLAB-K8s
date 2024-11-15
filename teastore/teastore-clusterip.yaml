@@ -25,9 +25,9 @@ spec:
           resources:
             requests:
               cpu: "1000m"
-              memory: "512M"
+              memory: "1024M"
             limits:
-              memory: "512M"
+              memory: "1024M"
 ---
 apiVersion: v1
 kind: Service
@@ -69,10 +69,10 @@ spec:
           resources:
             requests:
               cpu: "1200m"
-              memory: "512M"
+              memory: "1024M"
             limits:
               #cpu: "1200m"
-              memory: "512M"
+              memory: "1024M"
 ---
 apiVersion: v1
 kind: Service
@@ -123,10 +123,10 @@ spec:
           resources:
             requests:
               cpu: "900m"
-              memory: "512M"
+              memory: "1024M"
             limits:
               #cpu: "900m"
-              memory: "512M"
+              memory: "1024M"
 ---
 apiVersion: v1
 kind: Service
@@ -173,10 +173,10 @@ spec:
           resources:
             requests:
               cpu: "900m"
-              memory: "512M"
+              memory: "1024M"
             limits:
               #cpu: "900m"
-              memory: "512M"
+              memory: "1024M"
 ---
 apiVersion: v1
 kind: Service
@@ -223,10 +223,10 @@ spec:
           resources:
             requests:
               cpu: "1100m"
-              memory: "512M"
+              memory: "1024M"
             limits:
               #cpu: "1100m"
-              memory: "512M"
+              memory: "1024M"
 ---
 apiVersion: v1
 kind: Service
@@ -273,10 +273,10 @@ spec:
           resources:
             requests:
               cpu: "800m"
-              memory: "512M"
+              memory: "1024M"
             limits:
               #cpu: "800m"
-              memory: "512M"
+              memory: "1024M"
 ---
 apiVersion: v1
 kind: Service
