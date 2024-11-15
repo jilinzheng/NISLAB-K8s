@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Response
 import random
 import requests
 
@@ -61,12 +61,12 @@ def metrics():
                                params=avg_cpu_per_pod_in_deploy(deploy)).json()
             last_scale_response += f"{TARGET_DEPLOYS_UNDERSCORE[i]} {res['data']['result'][0]['value'][1]}\n"
         print(last_scale_response)
-        return last_scale_response
+        return Response(last_scale_response, mimetype="text/plain")
 
     # if coinflip is 0/tails, return the last response to prevent another scale
     else:
         print(f"coinflip_result = {coinflip_result}")
-        return last_scale_response
+        return Response(last_scale_response, mimetype="text/plain")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
