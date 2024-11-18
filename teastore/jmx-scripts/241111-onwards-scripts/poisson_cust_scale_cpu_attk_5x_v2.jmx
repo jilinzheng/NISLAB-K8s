@@ -15,16 +15,6 @@
             <stringProp name="Argument.value">30080</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="num_customers" elementType="Argument">
-            <stringProp name="Argument.name">num_customers</stringProp>
-            <stringProp name="Argument.value">1000</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="num_attackers" elementType="Argument">
-            <stringProp name="Argument.name">num_attackers</stringProp>
-            <stringProp name="Argument.value">5000</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="think_delay_max" elementType="Argument">
             <stringProp name="Argument.name">think_delay_max</stringProp>
             <stringProp name="Argument.value">5000</stringProp>
@@ -40,14 +30,19 @@
             <stringProp name="Argument.value">0</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="total_test_duration" elementType="Argument">
-            <stringProp name="Argument.name">total_test_duration</stringProp>
-            <stringProp name="Argument.value">7200</stringProp>
+          <elementProp name="num_customers" elementType="Argument">
+            <stringProp name="Argument.name">num_customers</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="customer_duration" elementType="Argument">
             <stringProp name="Argument.name">customer_duration</stringProp>
             <stringProp name="Argument.value">10800</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="num_attackers" elementType="Argument">
+            <stringProp name="Argument.name">num_attackers</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="attacker_duration" elementType="Argument">
@@ -75,14 +70,14 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Precise Throughput Dummy Sampler">
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Precise Throughput (Poisson) Dummy Sampler">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
           <stringProp name="ActionProcessor.duration">0</stringProp>
           <stringProp name="TestPlan.comments">For holding timer, as per JMeter component documentation https://jmeter.apache.org/usermanual/component_reference.html#Precise_Throughput_Timer</stringProp>
         </TestAction>
         <hashTree>
-          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="200 samples per second" enabled="true">
+          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="800 samples per second">
             <doubleProp>
               <name>allowedThroughputSurplus</name>
               <value>1.0</value>
@@ -91,7 +86,7 @@
             <intProp name="exactLimit">10000</intProp>
             <doubleProp>
               <name>throughput</name>
-              <value>12000.0</value>
+              <value>48000.0</value>
               <savedValue>0.0</savedValue>
             </doubleProp>
             <intProp name="throughputPeriod">60</intProp>
@@ -335,8 +330,17 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
+        <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="800 samples per second" enabled="false">
+          <doubleProp>
+            <name>throughput</name>
+            <value>48000.0</value>
+            <savedValue>0.0</savedValue>
+          </doubleProp>
+          <intProp name="calcMode">2</intProp>
+        </ConstantThroughputTimer>
+        <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YoYo (Attacker Traffic)" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YoYo (Attacker Traffic)">
         <stringProp name="TestPlan.comments">Start after half of ${test_duration}</stringProp>
         <stringProp name="ThreadGroup.num_threads">${num_attackers}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${ramp_up}</stringProp>
@@ -372,7 +376,7 @@
               <stringProp name="TestPlan.comments">For holding timer, as per JMeter component documentation https://jmeter.apache.org/usermanual/component_reference.html#Precise_Throughput_Timer</stringProp>
             </TestAction>
             <hashTree>
-              <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="1000 samples per second" enabled="true">
+              <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="1000 samples per second" enabled="false">
                 <doubleProp>
                   <name>allowedThroughputSurplus</name>
                   <value>1.0</value>
@@ -625,10 +629,10 @@
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="1000 samples per second" enabled="true">
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="4000 samples per second">
               <doubleProp>
                 <name>throughput</name>
-                <value>60000.0</value>
+                <value>240000.0</value>
                 <savedValue>0.0</savedValue>
               </doubleProp>
               <intProp name="calcMode">2</intProp>
