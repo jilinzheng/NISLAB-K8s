@@ -19,7 +19,7 @@ spec:
     # - type: External
     #   external:
     #     metric:
-    #       name: teastore-db
+    #       name: teastore_db
     #     target:
     #       type: Value
     #       value: "0.8" # CPUs
@@ -45,7 +45,7 @@ spec:
     # - type: External
     #   external:
     #     metric:
-    #       name: teastore-registry
+    #       name: teastore_registry
     #     target:
     #       type: Value
     #       value: "0.96" # CPUs
@@ -71,7 +71,7 @@ spec:
     # - type: External
     #   external:
     #     metric:
-    #       name: teastore-persistence
+    #       name: teastore_persistence
     #     target:
     #       type: Value
     #       value: "0.72" # CPUs
@@ -97,7 +97,7 @@ spec:
     # - type: External
     #   external:
     #     metric:
-    #       name: teastore-auth
+    #       name: teastore_auth
     #     target:
     #       type: Value
     #       value: "0.72" # CPUs
@@ -123,7 +123,7 @@ spec:
     # - type: External
     #   external:
     #     metric:
-    #       name: teastore-image
+    #       name: teastore_image
     #     target:
     #       type: Value
     #       value: "0.88" # CPUs
@@ -149,7 +149,7 @@ spec:
     # - type: External
     #   external:
     #     metric:
-    #       name: teastore-recommender
+    #       name: teastore_recommender
     #     target:
     #       type: Value
     #       value: "0.64" # CPUs
