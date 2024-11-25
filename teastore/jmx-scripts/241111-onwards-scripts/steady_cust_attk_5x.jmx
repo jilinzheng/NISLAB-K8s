@@ -366,7 +366,7 @@
           <intProp name="LoopController.loops">-1</intProp>
         </LoopController>
         <hashTree>
-          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="9-minute pause" enabled="true">
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="9-minute pause">
             <intProp name="ActionProcessor.action">1</intProp>
             <intProp name="ActionProcessor.target">0</intProp>
             <stringProp name="ActionProcessor.duration">540000</stringProp>

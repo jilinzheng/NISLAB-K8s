@@ -41,7 +41,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return "Coinflip server up and running!"
+    hundred_samples = random.choices([0,1],[0.7,0.3],k=100)
+    zeros = 0
+    ones = 0
+    for sample in hundred_samples:
+        if sample:
+            ones+=1
+        else:
+            zeros+=1
+    res = f"Coinflip server up and running!\nOut of a hundred samples, zeros = {zeros} and ones = {ones}!"
+    return Response(res, mimetype="text/plain")
 
 last_scale_response = ""
 
@@ -50,7 +59,8 @@ def metrics():
     global last_scale_response
 
     # simulate a coin flip: 0 or 1
-    coinflip_result = random.choice([0, 1])
+    coinflip_result = random.choices([0, 1], [0.5, 0.5])
+    print(f"coinflip_result = {coinflip_result}")
 
     # if coinflip is 1/heads, return the proper scaling
     if coinflip_result:
