@@ -5,10 +5,10 @@ import time
 import statistics
 
 # Prometheus APIs
-# PROM_QUERY_INSTANT_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query"
-# PROM_QUERY_RANGE_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query_range"
-PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
-PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
+PROM_QUERY_INSTANT_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query"
+PROM_QUERY_RANGE_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query_range"
+# PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
+# PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
 # list of target deployments
 TARGET_DEPLOYS = (['teastore-auth',
