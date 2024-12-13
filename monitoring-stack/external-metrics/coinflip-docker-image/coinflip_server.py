@@ -30,7 +30,7 @@ def avg_cpu_per_pod_in_deploy(deployment):
         "query":
         f"""sum(rate(container_cpu_usage_seconds_total{{namespace="default",pod=~"{deployment}-.*"}}[1m])) /
             scalar(count(kube_pod_info{{namespace="default",created_by_name=~"{deployment}-.*"}}))"""
-    }
+    }   
 
 def get_randomization_metrics():
     global last_randomization_response
@@ -69,13 +69,13 @@ def get_median_metrics():
     median_metrics = ""
     for i, timeframe in enumerate(TIMEFRAMES):
         res = requests.get(PROM_QUERY_RANGE_API,
-                        params=median_service_units(time.time()-TIMEFRAMES_SECONDS[i],
-                                                    time.time(),
+                        params=median_service_units(time.time()-3600,   # query results from
+                                                    time.time(),        # one hour ago til now
                                                     timeframe)).json()
         res_values = res['data']['result'][0]['values']
         service_units = []
         for value in res_values:
-            service_units.append(float(value[1]))
+            service_units.append(int(value[1]))
         median_metrics += f"{MEDIAN_METRIC_NAMES[i]} {statistics.median(service_units)}\n"
     return median_metrics
 
