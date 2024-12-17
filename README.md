@@ -21,7 +21,7 @@
    - `helm install prometheus-adapter -f prometheus-adapter-helm-chart-values.yaml prometheus-community/prometheus-adapter`
    - `helm install istio-base istio/base -n istio-system --set defaultRevision=default --create-namespace`
    - `helm install istiod istio/istiod -n istio-system --wait`
-6. Finish setting up the external and Istio metrics by running the following commands to deploy the external metrics server (coinflip-depoyment) and enable sidecar injection on the default namespace, where Teastore is deployed:
+6. Finish setting up the external and Istio metrics by running the following commands to deploy the external metrics server (coinflip-depoyment) and enable sidecar injection on the default namespace, where Teastore is deployed (the restarts are to apply the sidecar injection by restarting the deployment):
    - `kubectl apply -f external-metrics`
    - `kubectl label namespace default istio-injection=enabled --overwrite`
    - `kubectl rollout restart deploy teastore-auth`
@@ -31,18 +31,18 @@
    - `kubectl rollout restart deploy teastore-recommender`
    - `kubectl rollout restart deploy teastore-registry`
    - `kubectl rollout restart deploy teastore-webui`
+7. Access the services on these following URLS!
+   - Prometheus: http://localhost:30000
+   - Grafana: http://localhost:32000/login (user: admin, pass: admin)
+   - Teastore: http://localhost:30080
 
-## Monitoring URLs
+## Debugging
 
-- Prometheus: http://localhost:30000
-- Grafana: http://localhost:32000/login (user: admin, pass: admin)
-- Teastore: http://localhost:30080
-
-### Debugging
+### Localhost
 
 If for some reason `localhost` is not working, try `127.0.0.1`. If that does not work either, perhaps the pod/service is down. Try some of the `kubectl` commands below.
 
-## Useful `kubectl` Commands
+### Useful `kubectl` Commands
 
 - `kubectl get namespaces`
 - `kubectl get deploy [deployment name]`
@@ -52,14 +52,20 @@ If for some reason `localhost` is not working, try `127.0.0.1`. If that does not
 
 Switching out `get` with `describe` in any of the above commands will provide a more verbose description of the resource, i.e. `kubectl describe deploy`.
 
-Using the combination of flag and argument `-o yaml` at the end of any of the above commands can also display the YAML version of the resource, i.e., `kubectl get deploy teastore-webui -o yaml`.
+Using the combination of flag and argument `-o yaml` at the end of any of the above commands can also display the YAML version of the resource, e.g., `kubectl get deploy teastore-webui -o yaml`.
 
-By default all of these commands will return the requested resources in the `default` namespace, which is where I have deployed TeaStore, but you may wish to check other namespaces for other resources, e.g., the `monitoring` stack. To do so, simply add the flag `-n [namespace]` to see a different namespace, or `--all-namespaces` flag to see all namespaces.
+By default all of these commands will return the requested resources in the `default` namespace, which is where I have deployed Teastore, but you may wish to check other namespaces for other resources, e.g., the `monitoring` stack. To do so, simply add the flag `-n [namespace]` to see a different namespace, or `--all-namespaces` flag to see all namespaces.
 
 Examples:
 
 - `kubectl get deploy -n monitoring`: get all deployments of the monitoring namespace
 - `kubectl get pods --all-namespaces`: get pods across all namespaces
+
+Another very useful command is `kubectl rollout restart deployment [deployment name]`; this will gracefully restart the targeted deployment.
+
+### Useful Helm Commands
+
+- `helm list -A`: list all the Helm charts deployed
 
 ## Modifying TeaStore Configurations
 
@@ -74,6 +80,10 @@ Similarly, to modify the policy of the Horizontal Pod Autoscaler, modify [teasto
 `kubectl apply -f teastore-hpa.yaml`
 
 in the command line.
+
+To apply the randomized scaling HPA policy, run
+
+`kubectl apply -f teastore-hpa-coinflip.yaml`
 
 ## JMeter
 
@@ -93,7 +103,7 @@ Upon finishing the load test (assuming it is not in an infinite loop or has a sp
 
 There are two main parameters to the Precise Throughput Timer, `Target throughput (in samples per "throughput period")` and `Throughput period (seconds)`. The combination of the two determines the actual throughput of the requests sent by each of the threads. To quote the JMeter user manual, "`Test duration (seconds)` does **not** limit test duration. It is just a hint for the timer."
 
-To properly set the duration of test plans while using the Precise Throughput Timer (perhaps even test plans in general), modify the `Duration (seconds)` in the bottom-most Thread lifetime section of the Thread Group (you may have to check the `Specify THread lifetime` box).
+To properly set the duration of test plans while using the Precise Throughput Timer (perhaps even test plans in general), modify the `Duration (seconds)` in the bottom-most Thread lifetime section of the Thread Group (you may have to check the `Specify Thread lifetime` box).
 
 A basic configuration for a load test is as follows:
 
@@ -110,7 +120,7 @@ A basic configuration for a load test is as follows:
 
 This configuration will create 1000 users (threads) to execute the test plan under the Thread Group for ten minutes (600 seconds) with Poisson arrivals (achieved with Precise Throughput Timer).
 
-## References (inexhaustive)
+## References
 
 - [Research Journaling](https://docs.google.com/document/d/1r_4zI_Y6mYxTVYM8sbyfFSwYLj-fthx8k7tVWXRuUEE/edit?usp=sharing)
 - [Monitoring Stack Setup/K8s Tutorial](https://devopscube.com/kubernetes-tutorials-beginners/)
