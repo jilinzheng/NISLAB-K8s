@@ -1,21 +1,42 @@
 # NISLAB K8s Autoscaling Research
 
-## Table of Contents
+## Local Installation Instructions
 
-1. [Monitoring URLs](#monitoring-urls)
-    1. [Debugging](#debugging)
-2. [Useful `kubectl` Commands](#useful-kubectl-commands)
-3. [Modifying TeaStore Configurations](#modifying-teastore-configurations)
-4. [JMeter](#jmeter)
-    1. [Running Test Plans](#running-test-plans)
-    2. [Working with the Precise Throughput Timer](#working-with-the-precise-throughput-timer)
-5. [References (inexhaustive)](#references-inexhaustive)
+0. Clone this repository. For the NISLAB machine, it is already on the C: drive.
+1. Ensure Docker Desktop is installed and has Kubernetes enabled (and running), and Helm is installed.
+2. For Teastore, navigate to the `teastore` directory and run the following commands:
+   - `kubectl apply -f teastore-clusterip.yaml`
+   - `kubectl apply -f teastore-hpa.yaml` (use `teastore-hpa-coinflip.yaml` instead for randomization tests)
+3. Create a monitoring namespace with `kubectl create ns monitoring`
+4. For the base monitoring stack, navigate to the `monitoring-stack` directory and run the following commands:
+   - `kubectl apply -f prometheus`
+   - `kubectl apply -f node-exporter`
+   - `kubectl apply -f kube-state-metrics`
+   - `kubectl apply -f metrics-server`
+   - `kubectl apply -f grafana`
+5. For the external metrics (randomization metrics and median service units) and Istio metrics (rate of requests to particular services), run the following commands to install Prometheus Adapter and Istio:
+   - `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
+   - `helm repo add istio https://istio-release.storage.googleapis.com/charts`
+   - `helm repo update`
+   - `helm install prometheus-adapter -f prometheus-adapter-helm-chart-values.yaml prometheus-community/prometheus-adapter`
+   - `helm install istio-base istio/base -n istio-system --set defaultRevision=default --create-namespace`
+   - `helm install istiod istio/istiod -n istio-system --wait`
+6. Finish setting up the external and Istio metrics by running the following commands to deploy the external metrics server (coinflip-depoyment) and enable sidecar injection on the default namespace, where Teastore is deployed:
+   - `kubectl apply -f external-metrics`
+   - `kubectl label namespace default istio-injection=enabled --overwrite`
+   - `kubectl rollout restart deploy teastore-auth`
+   - `kubectl rollout restart deploy teastore-db`
+   - `kubectl rollout restart deploy teastore-image`
+   - `kubectl rollout restart deploy teastore-persistence`
+   - `kubectl rollout restart deploy teastore-recommender`
+   - `kubectl rollout restart deploy teastore-registry`
+   - `kubectl rollout restart deploy teastore-webui`
 
 ## Monitoring URLs
 
--   Prometheus: http://localhost:30000
--   Alertmanager: http://localhost:31000
--   Grafana: http://localhost:32000/login (user: admin, pass: admin)
+- Prometheus: http://localhost:30000
+- Grafana: http://localhost:32000/login (user: admin, pass: admin)
+- Teastore: http://localhost:30080
 
 ### Debugging
 
@@ -23,11 +44,11 @@ If for some reason `localhost` is not working, try `127.0.0.1`. If that does not
 
 ## Useful `kubectl` Commands
 
--   `kubectl get namespaces`
--   `kubectl get deploy [deployment name]`
--   `kubectl get pod [pod name]`
--   `kubectl get servcies [service name]`
--   `kubectl get hpa [horizontal pod autoscaler name]`
+- `kubectl get namespaces`
+- `kubectl get deploy [deployment name]`
+- `kubectl get pod [pod name]`
+- `kubectl get servcies [service name]`
+- `kubectl get hpa [horizontal pod autoscaler name]`
 
 Switching out `get` with `describe` in any of the above commands will provide a more verbose description of the resource, i.e. `kubectl describe deploy`.
 
@@ -37,8 +58,8 @@ By default all of these commands will return the requested resources in the `def
 
 Examples:
 
--   `kubectl get deploy -n monitoring`: get all deployments of the monitoring namespace
--   `kubectl get pods --all-namespaces`: get pods across all namespaces
+- `kubectl get deploy -n monitoring`: get all deployments of the monitoring namespace
+- `kubectl get pods --all-namespaces`: get pods across all namespaces
 
 ## Modifying TeaStore Configurations
 
@@ -76,31 +97,34 @@ To properly set the duration of test plans while using the Precise Throughput Ti
 
 A basic configuration for a load test is as follows:
 
--   Precise Throughput Timer
-    -   Target throughput: 2500
-    -   Throughput period: 600
-    -   Test duration: 600 (not crucial)
--   Thread Group
-    -   Number of Threads: 1000
-    -   Ramp-Up period: 0 (leave as zero for the Precise Throughput Timer)
-    -   Loop Count: Forever
-    -   Duration: 600
-    -   Startup delay: 0 (also leave as zero for the Precise Throughput Timer)
+- Precise Throughput Timer
+  - Target throughput: 2500
+  - Throughput period: 600
+  - Test duration: 600 (not crucial)
+- Thread Group
+  - Number of Threads: 1000
+  - Ramp-Up period: 0 (leave as zero for the Precise Throughput Timer)
+  - Loop Count: Forever
+  - Duration: 600
+  - Startup delay: 0 (also leave as zero for the Precise Throughput Timer)
 
 This configuration will create 1000 users (threads) to execute the test plan under the Thread Group for ten minutes (600 seconds) with Poisson arrivals (achieved with Precise Throughput Timer).
 
 ## References (inexhaustive)
 
--   [Research Journaling](https://docs.google.com/document/d/1r_4zI_Y6mYxTVYM8sbyfFSwYLj-fthx8k7tVWXRuUEE/edit?usp=sharing)
--   [Monitoring Stack Setup/K8s Tutorial](https://devopscube.com/kubernetes-tutorials-beginners/)
--   [Prometheus HTTP API](https://prometheus.io/docs/prometheus/latest/querying/api/)
--   [PromQL Tutorial](https://valyala.medium.com/promql-tutorial-for-beginners-9ab455142085)
--   [PromQL Cheat Sheet](https://promlabs.com/promql-cheat-sheet/)
--   [Python JSON to CSV](https://blog.enterprisedna.co/python-convert-json-to-csv/)
--   [K8s Monitoring Repo](https://github.com/camilb/prometheus-kubernetes)
--   [Resource Usage Queries](https://stackoverflow.com/questions/40327062/how-to-calculate-containers-cpu-usage-in-kubernetes-with-prometheus-as-monitori)
--   [Flattening JSON](https://towardsdatascience.com/flattening-json-objects-in-python-f5343c794b10)
--   [More Resource Metrics](https://medium.com/cloud-native-daily/monitoring-kubernetes-pods-resource-usage-with-prometheus-and-grafana-c17848febadc)
--   [K8s Deployment YAML Examples](https://codefresh.io/learn/kubernetes-deployment/kubernetes-deployment-yaml/)
--   [K8s Dev Guide for Beginners](https://www.youtube.com/playlist?list=PLHq1uqvAteVvUEdqaBeMK2awVThNujwMd)
--   [Precise Throughput Timer](https://jmeter.apache.org/usermanual/component_reference.html#Precise_Throughput_Timer)
+- [Research Journaling](https://docs.google.com/document/d/1r_4zI_Y6mYxTVYM8sbyfFSwYLj-fthx8k7tVWXRuUEE/edit?usp=sharing)
+- [Monitoring Stack Setup/K8s Tutorial](https://devopscube.com/kubernetes-tutorials-beginners/)
+- [Prometheus HTTP API](https://prometheus.io/docs/prometheus/latest/querying/api/)
+- [PromQL Tutorial](https://valyala.medium.com/promql-tutorial-for-beginners-9ab455142085)
+- [PromQL Cheat Sheet](https://promlabs.com/promql-cheat-sheet/)
+- [Python JSON to CSV](https://blog.enterprisedna.co/python-convert-json-to-csv/)
+- [K8s Monitoring Repo](https://github.com/camilb/prometheus-kubernetes)
+- [Resource Usage Queries](https://stackoverflow.com/questions/40327062/how-to-calculate-containers-cpu-usage-in-kubernetes-with-prometheus-as-monitori)
+- [Flattening JSON](https://towardsdatascience.com/flattening-json-objects-in-python-f5343c794b10)
+- [More Resource Metrics](https://medium.com/cloud-native-daily/monitoring-kubernetes-pods-resource-usage-with-prometheus-and-grafana-c17848febadc)
+- [K8s Deployment YAML Examples](https://codefresh.io/learn/kubernetes-deployment/kubernetes-deployment-yaml/)
+- [K8s Dev Guide for Beginners](https://www.youtube.com/playlist?list=PLHq1uqvAteVvUEdqaBeMK2awVThNujwMd)
+- [Precise Throughput Timer](https://jmeter.apache.org/usermanual/component_reference.html#Precise_Throughput_Timer)
+- https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-adapter
+- https://istio.io/latest/docs/setup/install/helm/
+- https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/
