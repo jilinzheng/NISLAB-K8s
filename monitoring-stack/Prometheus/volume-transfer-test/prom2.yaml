@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prom2-pv
+  namespace: monitoring
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "C:\\NISLAB\\prometheus-volume-backup\\pvc-f369dc39-bda5-4c4f-9f24-d477f8f3e138"
+  storageClassName: ""
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prom2-pvc
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  volumeName: prom2-pv
+  storageClassName: ""
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prom2-deploy
+  namespace: monitoring
+  labels:
+    app: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+        - name: prometheus
+          image: prom/prometheus
+          args:
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --storage.tsdb.path=/prometheus-pvc/
+            - --storage.tsdb.retention.time=1y
+            - --web.enable-lifecycle
+          resources:
+            requests:
+              cpu: "2"
+              memory: "4G"
+            limits:
+              memory: "8G"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            #- name: prometheus-storage-volume
+            #  mountPath: /prometheus-ephemeral/
+            - name: prom2-pvc
+              mountPath: /prometheus-pvc/
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            defaultMode: 420
+            name: prometheus-conf
+        #- name: prometheus-storage-volume
+        #  emptyDir: {}
+        - name: prom2-pvc
+          persistentVolumeClaim:
+            claimName: prom2-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prom2-svc
+  namespace: monitoring
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+spec:
+  selector:
+    app: prometheus
+  type: NodePort
+  ports:
+    - port: 9090
+      targetPort: 9090
+      nodePort: 30001
