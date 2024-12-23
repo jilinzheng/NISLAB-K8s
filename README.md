@@ -1,6 +1,6 @@
-# NISLAB K8s Autoscaling Research
+# NISLAB K8s Project Resources
 
-## Local Installation Instructions
+## Local K8s Cluster Installation Instructions
 
 0. Clone this repository. For the NISLAB machine, it is already on the C: drive.
 1. Ensure Docker Desktop is installed and has Kubernetes enabled (and running), and Helm is installed.
@@ -36,13 +36,13 @@
    - Grafana: http://localhost:32000/login (user: admin, pass: admin)
    - Teastore: http://localhost:30080
 
-## Debugging
+### Debugging
 
-### Localhost
+#### Localhost
 
 If for some reason `localhost` is not working, try `127.0.0.1`. If that does not work either, perhaps the pod/service is down. Try some of the `kubectl` commands below.
 
-### Useful `kubectl` Commands
+#### Useful `kubectl` Commands
 
 - `kubectl get namespaces`
 - `kubectl get deploy [deployment name]`
@@ -63,7 +63,7 @@ Examples:
 
 Another very useful command is `kubectl rollout restart deployment [deployment name]`; this will gracefully restart the targeted deployment.
 
-### Useful Helm Commands
+#### Useful Helm Commands
 
 - `helm list -A`: list all the Helm charts deployed
 
@@ -85,9 +85,7 @@ To apply the randomized scaling HPA policy, run
 
 `kubectl apply -f teastore-hpa-coinflip.yaml`
 
-## JMeter
-
-### Running Test Plans
+## Running Load Tests with JMeter
 
 It is fine to edit and run load tests in the GUI mode, but as test plans grow, the GUI mode starts to have more performance issues (typically memory). It is recommended to run load tests in the non-GUI mode, as follows:
 
@@ -98,6 +96,10 @@ Example:
 `jmeter -n -t`[`teastore_browse.jmx`](teastore/teastore_browse.jmx)`-l results.jtl -e -o html_report`
 
 Upon finishing the load test (assuming it is not in an infinite loop or has a specified thread lifetime), JMeter generates a detailed report of the results of the test in the specified directory (in the example above, the directory name is `html_report`). Simply open `index.html` file within the directory to view the report.
+
+### Existing Tests [Plans]
+
+I have included all of the various scripts I have used throughout setting up this local testing environment in the [`./jmeter-load-testing/scripts/`](./jmeter-load-testing/scripts/) directory. For the latest tests I ran in the Fall 2024 semester, they can be found in [`./jmeter-load-testing/scripts/241111-onwards-scripts/`](./jmeter-load-testing/scripts/241111-onwards-scripts/) as `poisson_cust_attk_*x.jmx` and `steady_cust_attk_*x.jmx`, for tests using a steady customer traffic arrival and a poisson one (note that attacker traffic arrivals are constant in both cases). The multipliers are achieved with tuning down the **customer** traffic. Again, to run tests with the default HPA policy (scaling off CPU usage) vs. 'coinflipped' HPA policy, **modify the Teastore HPA policy**; there is nothing to do with the JMeter test plans.
 
 ### Working with the Precise Throughput Timer
 
