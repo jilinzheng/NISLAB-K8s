@@ -9,5 +9,10 @@ docker-desktop-data-backup
 teastore/test_istio
 .DS_Store
 *.pdf
-jmeter-load-testing
+jmeter-load-testing/fall-2024-tests
+jmeter-load-testing/spring-2024-tests
+jmeter-load-testing/logs
+jmeter-load-testing/temp
+jmeter-load-testing/jmeter.log
 prometheus-volume-backup
+.vscode
