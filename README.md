@@ -12,7 +12,7 @@
    - `kubectl apply -f prometheus`
    - `kubectl apply -f node-exporter`
    - `kubectl apply -f kube-state-metrics`
-   - `kubectl apply -f metrics-server`
+   - `kubectl apply -f metrics-server.yaml`
    - `kubectl apply -f grafana`
 5. For the external metrics (randomization metrics and median service units) and Istio metrics (rate of requests to particular services), run the following commands to install Prometheus Adapter and Istio:
    - `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`

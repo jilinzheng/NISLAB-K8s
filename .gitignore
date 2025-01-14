@@ -16,3 +16,5 @@ jmeter-load-testing/temp
 jmeter-load-testing/jmeter.log
 prometheus-volume-backup
 .vscode
+jmeter-load-testing/sigmetrics-tests
+jmeter-load-testing/results.jtl
