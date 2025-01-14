@@ -23,9 +23,10 @@ TIMEFRAMES = ['1m','5m','10m','15m','20m','30m','45m','1h']
 TIMEFRAMES_SECONDS = [60,300,600,900,1200,1800,2700,3600]
 MEDIAN_METRIC_NAMES=[f"median_service_units_{timeframe}" for timeframe in TIMEFRAMES]
 last_randomization_response = ""
+last_service_unit_amount = -1
 
 # average cpu utilization per pod of deployment
-def avg_cpu_per_pod_in_deploy(deployment):
+def query_avg_cpu_per_pod_in_deploy(deployment):
     return {
         "query":
         f"""sum(rate(container_cpu_usage_seconds_total{{namespace="default",pod=~"{deployment}-.*"}}[1m])) /
@@ -43,7 +44,7 @@ def get_randomization_metrics():
         last_randomization_response = ""
         for i, deploy in enumerate(TARGET_DEPLOYS):
             res = requests.get(PROM_QUERY_INSTANT_API,
-                               params=avg_cpu_per_pod_in_deploy(deploy)).json()
+                               params=query_avg_cpu_per_pod_in_deploy(deploy)).json()
             last_randomization_response += f"{TARGET_DEPLOYS_UNDERSCORE[i]} {res['data']['result'][0]['value'][1]}\n"
         return last_randomization_response
     
@@ -51,8 +52,7 @@ def get_randomization_metrics():
     else:
         return last_randomization_response
 
-
-def median_service_units(start_time, end_time, timeframe):
+def query_service_units(start_time, end_time, timeframe):
     return {
         "query":
         f"""ceil(
@@ -69,8 +69,8 @@ def get_median_metrics():
     median_metrics = ""
     for i, timeframe in enumerate(TIMEFRAMES):
         res = requests.get(PROM_QUERY_RANGE_API,
-                        params=median_service_units(time.time()-3600,   # query results from
-                                                    time.time(),        # one hour ago til now
+                        params=query_service_units(time.time()-7200,    # query results from
+                                                    time.time(),        # two hours ago til now
                                                     timeframe)).json()
         res_values = res['data']['result'][0]['values']
         service_units = []
@@ -78,6 +78,25 @@ def get_median_metrics():
             service_units.append(int(value[1]))
         median_metrics += f"{MEDIAN_METRIC_NAMES[i]} {statistics.median(service_units)}\n"
     return median_metrics
+
+def get_state_aware_attack():
+    global last_service_unit_amount
+
+    res = requests.get(PROM_QUERY_RANGE_API,
+                        params=query_service_units(time.time()-60,    # query results from
+                                                    time.time(),      # 1 minute ago til now
+                                                    '1m')).json()
+    res_values = res['data']['result'][0]['values']
+    new_service_unit_amount = int(res_values[0][1])
+
+    # decrease detected + original number of SUs > 5
+    if (last_service_unit_amount > new_service_unit_amount
+        and last_service_unit_amount > 5):
+        last_service_unit_amount = new_service_unit_amount
+        return 'state_aware_attack 1'     # attacker should inject traffic burst
+
+    last_service_unit_amount = new_service_unit_amount
+    return 'state_aware_attack 0'        # attacker should NOT inject traffic burst
 
 app = Flask(__name__)
 
@@ -96,7 +115,10 @@ def index():
 
 @app.route('/metrics')
 def metrics():
-    return Response(get_randomization_metrics()+get_median_metrics(), mimetype="text/plain")
+    return Response(get_randomization_metrics()
+                    + get_median_metrics()
+                    + get_state_aware_attack(),
+                    mimetype="text/plain")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

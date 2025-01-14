@@ -39,11 +39,11 @@ data:
           target_label: __address__
           regex: (.+):(?:\d+);(\d+)
           replacement: $1:$2
-      - job_name: 'coinflip_external_metric'
+      - job_name: 'external-metrics-server'
         metrics_path: /metrics
         static_configs:
           - targets:
-            - "coinflip-service:5000"
+            - "external-metrics-server-service:5000"
       - job_name: 'node-exporter'
         kubernetes_sd_configs:
           - role: endpoints

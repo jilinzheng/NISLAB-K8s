@@ -4,8 +4,26 @@ import subprocess
 import shutil
 
 # List of filenames
-list1 = ['no-attacker.jmx', 'ddos-5x.jmx', 'ddos-10x.jmx', 'ddos-20x.jmx', 'yoyo-5x.jmx', 'yoyo-10x.jmx', 'yoyo-20x.jmx']  # Replace with your actual filenames
-list2 = ['250113_no_attacker', '250113_ddos_5x', '250113_ddos_10x','250113_ddos_20x', '250113_yoyo_5x', '250113_yoyo_10x', '250113_yoyo_20x']  # Replace with your actual output directories
+list1 = ['no-attacker.jmx',
+         'ddos-5x.jmx',
+         'ddos-10x.jmx',
+         'ddos-20x.jmx',
+         'yoyo-5x.jmx',
+         'yoyo-10x.jmx',
+         'yoyo-20x.jmx',
+         'state-aware-5x.jmx',
+         'state-aware-10x.jmx',
+         'state-aware-20x.jmx']
+list2 = ['250114_no_attacker',
+         '250114_ddos_5x',
+         '250114_ddos_10x',
+         '250114_ddos_20x',
+         '250114_yoyo_5x',
+         '250114_yoyo_10x',
+         '250114_yoyo_20x',
+         '250114_state_aware_5x',
+         '250114_state_aware_10x',
+         '250114_state_aware_20x']
 
 # Ensure the lists are of the same length
 if len(list1) != len(list2):
@@ -32,5 +50,5 @@ while True:
         if os.path.exists(result_file):
             shutil.move(result_file, output_dir)
 
-    # Wait for 2.5 hours (in seconds)
-    time.sleep(2.5 * 60 * 60)
+        # Wait for scale-down
+        time.sleep(60 * 60 * 2.25) # 2 hours and 15 minutes for 'cooldown'

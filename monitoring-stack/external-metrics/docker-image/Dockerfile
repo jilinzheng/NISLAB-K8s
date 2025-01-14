@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Define environment variable
-ENV FLASK_APP=coinflip_server.py
+ENV FLASK_APP=external_metrics_server.py
 
 # Run the application
 CMD ["flask", "run", "--host=0.0.0.0"]
