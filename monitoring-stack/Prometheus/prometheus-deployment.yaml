@@ -23,6 +23,7 @@ spec:
             - --storage.tsdb.path=/prometheus-pvc/
             - --storage.tsdb.retention.time=1y
             - --web.enable-lifecycle
+            - --log.level=info
           resources:
             requests:
               cpu: "2"

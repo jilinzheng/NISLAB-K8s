@@ -1,0 +1,181 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: teastore-db-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: teastore-db
+  minReplicas: 1
+  maxReplicas: 30
+  metrics:
+    # - type: Resource
+    #   resource:
+    #     name: cpu
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 80
+    - type: External
+      external:
+        metric:
+          name: teastore_db
+        target:
+          type: Value
+          value: "0.8" # CPUs
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: teastore-registry-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: teastore-registry
+  minReplicas: 1
+  maxReplicas: 30
+  metrics:
+    # - type: Resource
+    #   resource:
+    #     name: cpu
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 80
+    - type: External
+      external:
+        metric:
+          name: teastore_registry
+        target:
+          type: Value
+          value: "0.96" # CPUs
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: teastore-persistence-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: teastore-persistence
+  minReplicas: 1
+  maxReplicas: 30
+  metrics:
+    # - type: Resource
+    #   resource:
+    #     name: cpu
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 80
+    - type: External
+      external:
+        metric:
+          name: teastore_persistence
+        target:
+          type: Value
+          value: "0.72" # CPUs
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: teastore-auth-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: teastore-auth
+  minReplicas: 1
+  maxReplicas: 30
+  metrics:
+    # - type: Resource
+    #   resource:
+    #     name: cpu
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 80
+    - type: External
+      external:
+        metric:
+          name: teastore_auth
+        target:
+          type: Value
+          value: "0.72" # CPUs
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: teastore-image-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: teastore-image
+  minReplicas: 1
+  maxReplicas: 30
+  metrics:
+    # - type: Resource
+    #   resource:
+    #     name: cpu
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 80
+    - type: External
+      external:
+        metric:
+          name: teastore_image
+        target:
+          type: Value
+          value: "0.88" # CPUs
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: teastore-recommender-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: teastore-recommender
+  minReplicas: 1
+  maxReplicas: 30
+  metrics:
+    # - type: Resource
+    #   resource:
+    #     name: cpu
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 80
+    - type: External
+      external:
+        metric:
+          name: teastore_recommender
+        target:
+          type: Value
+          value: "0.64" # CPUs
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: teastore-webui-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: teastore-webui
+  minReplicas: 1
+  maxReplicas: 30
+  metrics:
+    # - type: Resource
+    #   resource:
+    #     name: cpu
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 80
+    - type: External
+      external:
+        metric:
+          name: teastore_webui
+        target:
+          type: Value
+          value: "0.96" # CPUs

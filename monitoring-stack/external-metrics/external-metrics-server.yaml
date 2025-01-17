@@ -16,6 +16,12 @@ spec:
       containers:
         - name: external-metrics-server-deployment
           image: jilinnn/external-metrics-server # Replace with your Docker image path.
+          resources:
+            requests:
+              cpu: "800m"
+              memory: "1G"
+            limits:
+              memory: "2G"
           ports:
             - containerPort: 5000
 ---
