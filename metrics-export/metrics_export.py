@@ -11,14 +11,14 @@ PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
 PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
 SCENARIOS = [
-    # 'no_attacker',
-    # 'ddos_5x',
-    # 'ddos_10x',
-    # 'ddos_20x',
-    # 'yoyo_5x',
-    # 'yoyo_10x',
-    # 'yoyo_20x',
-    # 'state_aware_5x',
+    'no_attacker',
+    'ddos_5x',
+    'ddos_10x',
+    'ddos_20x',
+    'yoyo_5x',
+    'yoyo_10x',
+    'yoyo_20x',
+    'state_aware_5x',
     'state_aware_10x',
     'state_aware_20x'
 ]
@@ -31,8 +31,18 @@ START_TIMES = [
     # '1736964185797',
     # '1736972089479',
     # '1736980004527',
-    '1737084936193',
-    '1737092804278'
+    # '1737084936193',
+    # '1737092804278',
+    '1737101140024',
+    '1737108988075',
+    '1737116849058',
+    '1737124723454',
+    '1737132626930',
+    '1737140481553',
+    '1737148391455',
+    '1737156255896',
+    '1737164119432',
+    '1737171990194'
 ] # unix ms
 END_TIMES = [
     # '1736931742413',
@@ -43,10 +53,20 @@ END_TIMES = [
     # '1736971386169',
     # '1736979292620',
     # '1736987204824',
-    '1737092136458',
-    '1737100002170'
+    # '1737092136458',
+    # '1737100002170',
+    '1737171990194',
+    '1737116188358',
+    '1737124049370',
+    '1737131923927',
+    '1737139827303',
+    '1737147682058',
+    '1737155592043',
+    '1737163456124',
+    '1737171316976',
+    '1737179190522'
 ] # unix ms
-TIMEFRAMES = ['1m','5m','10m','15m','20m','30m','45m','1h']
+TIMEFRAMES = ['1m','5m','15m','30m','1h']
 
 def query_rate_of_total_requests(timeframe):
     return f"""sum(rate(istio_requests_total{{destination_service_name="teastore-webui"}}[{timeframe}])) by (destination_service)"""
@@ -104,7 +124,7 @@ for i in range(len(SCENARIOS)):
                 target_values.append(value[1])
 
             # create dataframe + write to csv
-            filename = f'./250116_{SCENARIOS[i]}_{QUERIES[k][1].replace(' ','_').lower()}_{TIMEFRAMES[j]}.csv'
+            filename = f'./250118_{SCENARIOS[i]}_{QUERIES[k][1].replace(' ','_').lower()}_{TIMEFRAMES[j]}.csv'
             df = pd.DataFrame({
                 'Timestamp': timestamps,
                 f'{QUERIES[k][1]}': target_values
