@@ -17,16 +17,16 @@ list1 = [
     'state-aware-20x.jmx'
 ]
 list2 = [
-    '250117_no_attacker',
-    '250117_ddos_5x',
-    '250117_ddos_10x',
-    '250117_ddos_20x',
-    '250117_yoyo_5x',
-    '250117_yoyo_10x',
-    '250117_yoyo_20x',
-    '250117_state_aware_5x',
-    '250117_state_aware_10x',
-    '250117_state_aware_20x'
+    '250118_no_attacker',
+    '250118_ddos_5x',
+    '250118_ddos_10x',
+    '250118_ddos_20x',
+    '250118_yoyo_5x',
+    '250118_yoyo_10x',
+    '250118_yoyo_20x',
+    '250118_state_aware_5x',
+    '250118_state_aware_10x',
+    '250118_state_aware_20x'
 ]
 
 # Ensure the lists are of the same length

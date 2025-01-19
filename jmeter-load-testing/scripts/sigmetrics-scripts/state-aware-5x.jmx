@@ -52,6 +52,8 @@
           </elementProp>
         </collectionProp>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Customer Traffic">
@@ -68,13 +70,13 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Precise Throughput Dummy Sampler" enabled="true">
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Precise Throughput Dummy Sampler">
           <boolProp name="displayJMeterProperties">false</boolProp>
           <boolProp name="displayJMeterVariables">false</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree>
-          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="130000 samples per hour" enabled="true">
+          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="130000 samples per hour">
             <doubleProp>
               <name>allowedThroughputSurplus</name>
               <value>1.0</value>
@@ -90,7 +92,7 @@
             <stringProp name="duration">${customer_duration}</stringProp>
             <stringProp name="batchSize">${num_customers}</stringProp>
             <intProp name="batchThreadDelay">0</intProp>
-            <longProp name="randomSeed">0</longProp>
+            <longProp name="randomSeed">1</longProp>
           </PreciseThroughputTimer>
           <hashTree/>
         </hashTree>
@@ -333,7 +335,7 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="State-Aware Attacker Traffic">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="State-Aware Attacker Traffic" enabled="true">
         <stringProp name="ThreadGroup.num_threads">${num_attackers}</stringProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
         <stringProp name="ThreadGroup.duration">${attacker_duration}</stringProp>
@@ -347,7 +349,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attacker State Awareness">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attacker State Awareness" enabled="true">
           <stringProp name="TestPlan.comments">achieved with simply querying Prometheus locally</stringProp>
           <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
           <stringProp name="HTTPSampler.port">30000</stringProp>
@@ -391,12 +393,12 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer">
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
             <stringProp name="ConstantTimer.delay">15000</stringProp>
             <stringProp name="TestPlan.comments">every 15 seconds to match prometheus scrape interval</stringProp>
           </ConstantTimer>
           <hashTree/>
-          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor">
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="JSON Extractor" enabled="true">
             <stringProp name="JSONPostProcessor.referenceNames">state_aware_attack</stringProp>
             <stringProp name="JSONPostProcessor.jsonPathExprs">$..values[0][1]</stringProp>
             <stringProp name="JSONPostProcessor.match_numbers">-1</stringProp>

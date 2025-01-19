@@ -37,6 +37,8 @@
           </elementProp>
         </collectionProp>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Customer Traffic">
@@ -76,17 +78,17 @@
             <stringProp name="duration">${customer_duration}</stringProp>
             <stringProp name="batchSize">${num_customers}</stringProp>
             <intProp name="batchThreadDelay">0</intProp>
-            <longProp name="randomSeed">0</longProp>
+            <longProp name="randomSeed">1</longProp>
           </PreciseThroughputTimer>
           <hashTree/>
         </hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
           <collectionProp name="CookieManager.cookies"/>
           <boolProp name="CookieManager.clearEachIteration">true</boolProp>
           <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Transaction Controller" enabled="true">
           <boolProp name="TransactionController.parent">true</boolProp>
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
@@ -319,7 +321,7 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="DDoS Attacker Traffic">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="DDoS Attacker Traffic" enabled="true">
         <stringProp name="TestPlan.comments">1 hour</stringProp>
         <stringProp name="ThreadGroup.num_threads">${num_attackers}</stringProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
@@ -334,13 +336,13 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Constant Throughput Dummy Sampler">
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Constant Throughput Dummy Sampler" enabled="true">
           <boolProp name="displayJMeterProperties">false</boolProp>
           <boolProp name="displayJMeterVariables">false</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree>
-          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="1300000 samples per hour">
+          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="1300000 samples per hour" enabled="true">
             <doubleProp>
               <name>throughput</name>
               <value>21666.66667</value>
@@ -351,7 +353,7 @@
           </ConstantThroughputTimer>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attack">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attack" enabled="true">
           <intProp name="HTTPSampler.connect_timeout">50000</intProp>
           <intProp name="HTTPSampler.response_timeout">30000</intProp>
           <stringProp name="HTTPSampler.domain">${hostname}</stringProp>

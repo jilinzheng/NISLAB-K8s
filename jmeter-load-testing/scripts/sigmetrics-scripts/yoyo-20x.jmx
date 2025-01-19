@@ -37,6 +37,8 @@
           </elementProp>
         </collectionProp>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Customer Traffic">
@@ -53,7 +55,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Precise Throughput Dummy Sampler" enabled="true">
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Precise Throughput Dummy Sampler">
           <boolProp name="displayJMeterProperties">false</boolProp>
           <boolProp name="displayJMeterVariables">false</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
@@ -75,7 +77,7 @@
             <stringProp name="duration">${customer_duration}</stringProp>
             <stringProp name="batchSize">${num_customers}</stringProp>
             <intProp name="batchThreadDelay">0</intProp>
-            <longProp name="randomSeed">0</longProp>
+            <longProp name="randomSeed">1</longProp>
           </PreciseThroughputTimer>
           <hashTree/>
         </hashTree>
@@ -318,7 +320,7 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YoYo Attacker Traffic">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YoYo Attacker Traffic" enabled="true">
         <stringProp name="TestPlan.comments">Start after half of ${test_duration}</stringProp>
         <stringProp name="ThreadGroup.num_threads">${num_attackers}</stringProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
@@ -339,17 +341,17 @@
           <stringProp name="ActionProcessor.duration">480000</stringProp>
         </TestAction>
         <hashTree/>
-        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="2-minute burst">
+        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="2-minute burst" enabled="true">
           <stringProp name="RunTime.seconds">120</stringProp>
         </RunTime>
         <hashTree>
-          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Constant Throughput Dummy Sampler">
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Constant Throughput Dummy Sampler" enabled="true">
             <boolProp name="displayJMeterProperties">false</boolProp>
             <boolProp name="displayJMeterVariables">false</boolProp>
             <boolProp name="displaySystemProperties">false</boolProp>
           </DebugSampler>
           <hashTree>
-            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="2600000 samples per hour">
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="2600000 samples per hour" enabled="true">
               <doubleProp>
                 <name>throughput</name>
                 <value>43333.33333</value>
@@ -360,7 +362,7 @@
             </ConstantThroughputTimer>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attack">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attack" enabled="true">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
