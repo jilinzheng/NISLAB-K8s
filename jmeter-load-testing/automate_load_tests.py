@@ -5,28 +5,30 @@ import shutil
 
 # List of filenames
 list1 = [
-    'no-attacker.jmx',
-    'ddos-5x.jmx',
-    'ddos-10x.jmx',
-    'ddos-20x.jmx',
-    'yoyo-5x.jmx',
-    'yoyo-10x.jmx',
-    'yoyo-20x.jmx',
-    'state-aware-5x.jmx',
-    'state-aware-10x.jmx',
-    'state-aware-20x.jmx'
+    # 'no-attacker.jmx',
+    # 'ddos-5x.jmx',
+    # 'ddos-10x.jmx',
+    # 'ddos-20x.jmx',
+    # 'yoyo-5x.jmx',
+    # 'yoyo-10x.jmx',
+    # 'yoyo-20x.jmx',
+    # 'state-aware-5x.jmx',
+    # 'state-aware-10x.jmx',
+    # 'state-aware-20x.jmx'
+    'ddos-20x-sanity-check.jmx'
 ]
 list2 = [
-    '250118_no_attacker',
-    '250118_ddos_5x',
-    '250118_ddos_10x',
-    '250118_ddos_20x',
-    '250118_yoyo_5x',
-    '250118_yoyo_10x',
-    '250118_yoyo_20x',
-    '250118_state_aware_5x',
-    '250118_state_aware_10x',
-    '250118_state_aware_20x'
+    # '250119_no_attacker',
+    # '250119_ddos_5x',
+    # '250119_ddos_10x',
+    # '250119_ddos_20x',
+    # '250119_yoyo_5x',
+    # '250119_yoyo_10x',
+    # '250119_yoyo_20x',
+    # '250119_state_aware_5x',
+    # '250119_state_aware_10x',
+    # '250119_state_aware_20x'
+    '250120_ddos_20x_sanity_check'
 ]
 
 # Ensure the lists are of the same length

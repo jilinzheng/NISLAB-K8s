@@ -1,9 +1,4 @@
-"""
-Query Prometheus HTTP API for specified metrics
-"""
-
 import requests
-from datetime import datetime
 import pandas as pd
 import statistics
 
@@ -116,17 +111,13 @@ END_TIMES = [
     '1737340005053'
 ] # unix ms
 TIMEFRAMES = [
-    ('1m', 60000),
-    ('5m', 300000),
-    ('15m', 900000),
-    ('30m', 1800000)
-    ('1h', 3600000)
+    ('1m', 60),
+    ('5m', 300),
+    ('15m', 900),
+    ('30m', 1800),
+    ('1h', 3600)
 ]
-ONE_MIN_IN_MS = 60000
-FIVE_MIN_IN_MS = 300000
-FIFTEEN_MIN_IN_MS = 900000
-THIRTY_MIN_IN_MS = 1800000
-ONE_HOUR_IN_MS = 3600000
+ONE_HOUR_IN_S = 3600
 
 def query_service_units_used(timeframe):
     return f"""
@@ -145,6 +136,7 @@ if (len(START_TIMES) != len(END_TIMES)
     raise ValueError("CONSTANTS length mismatch!")
 
 for i in range(len(SCENARIOS)):
+    print(f'----------Scenario: {SCENARIOS[i]}----------')
     for j in range(len(TIMEFRAMES)):
         # for k in range(len(QUERIES)):
         params={
@@ -159,9 +151,7 @@ for i in range(len(SCENARIOS)):
         values = res['data']['result'][0]['values']
         timestamps, target_values = [], []
         for value in values:
-            # timestamp = value[0]
-            # timestamps.append(datetime.fromtimestamp(timestamp))
-            timestamps.append(value[0]) # take the raw ms (? check) value
+            timestamps.append(value[0]) # take the raw second value
             target_values.append(value[1])
 
         # split SUs into customer/attacker phases (1 hour per each phase)
@@ -170,17 +160,29 @@ for i in range(len(SCENARIOS)):
         # e.g., only 30-minute and after for the 30-minute timeframe
         customer_SUs, attacker_SUs = [], []
         for k in range(len(timestamps)):
-            if (END_TIMES[i] - timestamps[k] >= ONE_HOUR_IN_MS
-                and timestamps[k] > START_TIMES[i] + TIMEFRAMES[j][1]):
-                customer_SUs.append(target_values[k])
-            if (END_TIMES[i] - timestamps[k] < ONE_HOUR_IN_MS
-                and timestamps[k] > START_TIMES[i] + ONE_HOUR_IN_MS + TIMEFRAMES[j][1]):
-                attacker_SUs.append(target_values[k])
-        print(f'Scenario: {SCENARIOS[i]}')
-        print(f'Max customer service units = {max(customer_SUs)}')
-        print(f'Max attacker service units = {max(attacker_SUs)}')
-        print(f'Median customer service units = {max(statistics.median(customer_SUs))}')
-        print(f'Median attacker service units = {max(statistics.median(attacker_SUs))}')
+            if (float(END_TIMES[i])/1000.0 - timestamps[k] >= ONE_HOUR_IN_S
+                and timestamps[k] > float(START_TIMES[i])/1000.0 + TIMEFRAMES[j][1]):
+                customer_SUs.append(int(target_values[k]))
+            if (float(END_TIMES[i])/1000.0 - timestamps[k] <= ONE_HOUR_IN_S
+                and timestamps[k] > float(START_TIMES[i])/1000.0 + ONE_HOUR_IN_S + TIMEFRAMES[j][1]):
+                attacker_SUs.append(int(target_values[k]))
+        print(f'Timeframe: {TIMEFRAMES[j][0]}')
+        try:
+            print(f'- Max customer service units = {max(customer_SUs)}')
+        except Exception as e:
+            print(f'- {e}')
+        try:
+            print(f'- Max attacker service units = {max(attacker_SUs)}')
+        except Exception as e:
+            print(f'- {e}')
+        try:
+            print(f'- Median customer service units = {int(statistics.median(customer_SUs))}')
+        except Exception as e:
+            print(f'- {e}')
+        try:
+            print(f'- Median attacker service units = {int(statistics.median(attacker_SUs))}')
+        except Exception as e:
+            print(f'- {e}')
 
         # # create dataframe + write to csv
         # filename = f'./250120_{SCENARIOS[i]}_{QUERIES[k][1].replace(' ','_').lower()}_{TIMEFRAMES[j]}.csv'
