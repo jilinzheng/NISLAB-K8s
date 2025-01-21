@@ -205,13 +205,3 @@ for i in range(len(SCENARIOS)):
             print(f'- Median attacker service units = {int(statistics.median(attacker_SUs))}')
         except Exception as e:
             print(f'- {e}')
-
-        # # create dataframe + write to csv
-        # filename = f'./250120_{SCENARIOS[i]}_{QUERIES[k][1].replace(' ','_').lower()}_{TIMEFRAMES[j]}.csv'
-        # df = pd.DataFrame({
-        #     'Timestamp': timestamps,
-        #     f'{QUERIES[k][1]}': target_values
-        # })
-        # # df.to_excel('./prom_res.xlsx', index=False, engine='openpyxl')
-        # df.to_csv(filename,index=False)
-        # print(f'{filename} successfully written!')
