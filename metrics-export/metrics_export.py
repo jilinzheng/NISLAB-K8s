@@ -11,16 +11,20 @@ PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
 PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
 SCENARIOS = [
-    'no_attacker',
-    'ddos_5x',
-    'ddos_10x',
-    'ddos_20x',
-    'yoyo_5x',
-    'yoyo_10x',
-    'yoyo_20x',
-    'state_aware_5x',
-    'state_aware_10x',
-    'state_aware_20x'
+    # 'no_attacker',
+    # 'ddos_5x',
+    # 'ddos_10x',
+    # 'ddos_20x',
+    # 'yoyo_5x',
+    # 'yoyo_10x',
+    # 'yoyo_20x',
+    # 'state_aware_5x',
+    # 'state_aware_10x',
+    # 'state_aware_20x'
+    'ddos_20x_default_hpa_random_seed',
+    'ddos_20x_default_hpa_constant_seed',
+    'ddos_20x_randomized_hpa_random_seed',
+    'ddos_20x_randomized_hpa_constant_seed'
 ]
 START_TIMES = [
     # '1736924542155',
@@ -53,16 +57,21 @@ START_TIMES = [
     # '1737236103688',
     # '1737243961303',
     # '1737251834095',
-    '1737262034972',
-    '1737269878790',
-    '1737277739784',
-    '1737285613941',
-    '1737293515218',
-    '1737301366698',
-    '1737309220356',
-    '1737317079906',
-    '1737324937902',
-    '1737332804784'
+    # '1737262034972',
+    # '1737269878790',
+    # '1737277739784',
+    # '1737285613941',
+    # '1737293515218',
+    # '1737301366698',
+    # '1737309220356',
+    # '1737317079906',
+    # '1737324937902',
+    # '1737332804784'
+    # ddos-20x re-runs
+    '1737410733094',
+    '1737418636106',
+    '1737427121796',
+    '1737435021493'
 ] # unix ms
 END_TIMES = [
     # '1736931742413',
@@ -95,16 +104,20 @@ END_TIMES = [
     # '1737243298499',
     # '1737251161574',
     # '1737259034346',
-    '1737269229695',
-    '1737277079090',
-    '1737284940413',
-    '1737292814675',
-    '1737300715537',
-    '1737308567221',
-    '1737316421122',
-    '1737324280155',
-    '1737332138185',
-    '1737340005053'
+    # '1737269229695',
+    # '1737277079090',
+    # '1737284940413',
+    # '1737292814675',
+    # '1737300715537',
+    # '1737308567221',
+    # '1737316421122',
+    # '1737324280155',
+    # '1737332138185',
+    # '1737340005053'
+    '1737417934508',
+    '1737425837273',
+    '1737434323134',
+    '1737442222831'
 ] # unix ms
 TIMEFRAMES = ['1m','5m','15m','30m','1h']
 
@@ -135,8 +148,8 @@ QUERIES = [
     (query_rate_of_total_requests, 'Rate of Total Requests'),
     (query_rate_of_successful_requests, 'Rate of Successful Requests'),
     (query_rate_of_failed_requests, 'Rate of Failed Requests'),
-    (query_service_units_used, 'Service Units Used'),
-    (query_median_service_units_used, 'Median Service Units Used')
+    (query_service_units_used, 'Service Units Used')
+    # (query_median_service_units_used, 'Median Service Units Used')
 ]
 
 if (len(START_TIMES) != len(END_TIMES)

@@ -15,7 +15,11 @@ list1 = [
     # 'state-aware-5x.jmx',
     # 'state-aware-10x.jmx',
     # 'state-aware-20x.jmx'
-    'ddos-20x-sanity-check.jmx'
+    # 'ddos-20x-sanity-check.jmx'
+    'ddos-20x-random-seed.jmx',
+    'ddos-20x-constant-seed.jmx',
+    # 'ddos-20x-random-seed.jmx',
+    # 'ddos-20x-constant-seed.jmx'
 ]
 list2 = [
     # '250119_no_attacker',
@@ -28,7 +32,11 @@ list2 = [
     # '250119_state_aware_5x',
     # '250119_state_aware_10x',
     # '250119_state_aware_20x'
-    '250120_ddos_20x_sanity_check'
+    # '250120_ddos_20x_sanity_check_v2'
+    # '250120_ddos_20x_random_seed_default_hpa',
+    # '250120_ddos_20x_constant_seed_default_hpa',
+    '250120_ddos_20x_random_seed_randomized_hpa',
+    '250120_ddos_20x_constant_seed_randomized_hpa',
 ]
 
 # Ensure the lists are of the same length
@@ -40,6 +48,7 @@ if len(list1) != len(list2):
 # Get the current directory
 script_dir = os.getcwd()
 
+i = 0
 for file1, file2 in zip(list1, list2):
     # Construct the full paths
     result_file = os.path.join(script_dir, 'results.csv')
@@ -56,6 +65,18 @@ for file1, file2 in zip(list1, list2):
     # Command 2: Move results.jtl to the output directory if it exists
     if os.path.exists(result_file):
         shutil.move(result_file, output_dir)
+    print(F'-------------TEST {i} COMPLETE!-------------')
+    i+=1
+
+    # change hpa if 2 default tests have ran
+    # if i == 2:
+    #     print('-------------ATTENTION! CHANGING HPA!-------------')
+    #     subprocess.run([
+    #         r'C:\Program Files\Docker\Docker\resources\bin\kubectl.exe',
+    #         'apply',
+    #         '-f',
+    #         r'C:\NISLAB\teastore\teastore-hpa-randomized.yaml'
+    #     ], check=True)
 
     # Wait for scale-down
     time.sleep(600) # 10 minutes for 'cooldown'

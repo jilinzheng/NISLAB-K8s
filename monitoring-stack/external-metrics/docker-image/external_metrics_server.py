@@ -5,10 +5,10 @@ import time
 import statistics
 
 # Prometheus APIs
-# PROM_QUERY_INSTANT_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query"
-# PROM_QUERY_RANGE_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query_range"
-PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
-PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
+PROM_QUERY_INSTANT_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query"
+PROM_QUERY_RANGE_API = "http://prometheus-service.monitoring.svc.cluster.local:9090/api/v1/query_range"
+# PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
+# PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
 # list of target deployments
 TARGET_DEPLOYS = (['teastore-auth',
@@ -116,7 +116,7 @@ def index():
 @app.route('/metrics')
 def metrics():
     return Response(get_randomization_metrics()
-                    + get_median_metrics()
+                    # + get_median_metrics()
                     + get_state_aware_attack(),
                     mimetype="text/plain")
 
