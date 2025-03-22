@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: external-metrics-server-deployment
+  name: external-metrics-server
   namespace: monitoring
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: external-metrics-server-deployment
+      app: external-metrics-server
   template:
     metadata:
       labels:
-        app: external-metrics-server-deployment
+        app: external-metrics-server
     spec:
       containers:
-        - name: external-metrics-server-deployment
-          image: jilinnn/external-metrics-server # Replace with your Docker image path.
+        - name: external-metrics-server
+          image: jilinnn/external-metrics-server:latest # Replace with your Docker image path.
           resources:
             requests:
               cpu: "800m"
@@ -37,4 +37,4 @@ spec:
       port: 5000
       targetPort: 5000
   selector:
-    app: external-metrics-server-deployment
+    app: external-metrics-server
