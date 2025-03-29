@@ -24,3 +24,5 @@ jmeter-load-testing/250117*
 jmeter-load-testing/spring-2025-tests
 jmeter-load-testing/25*
 jmeter-load-testing/sigmetrics-revision-tests
+openshift
+*.txt
