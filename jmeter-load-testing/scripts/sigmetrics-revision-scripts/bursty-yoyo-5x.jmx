@@ -27,18 +27,16 @@
           </elementProp>
           <elementProp name="customer_duration" elementType="Argument">
             <stringProp name="Argument.name">customer_duration</stringProp>
-            <stringProp name="Argument.value">1200</stringProp>
+            <stringProp name="Argument.value">7200</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="attacker_duration" elementType="Argument">
             <stringProp name="Argument.name">attacker_duration</stringProp>
-            <stringProp name="Argument.value">600</stringProp>
+            <stringProp name="Argument.value">3600</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </elementProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Customer">
@@ -81,7 +79,7 @@
           </PreciseThroughputTimer>
           <hashTree/>
         </hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
           <collectionProp name="CookieManager.cookies"/>
           <boolProp name="CookieManager.clearEachIteration">true</boolProp>
           <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
@@ -320,12 +318,12 @@
           <hashTree/>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YoYo Attacker" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="YoYo Attacker">
         <stringProp name="TestPlan.comments">Start after half of ${test_duration}</stringProp>
         <stringProp name="ThreadGroup.num_threads">${num_attackers}</stringProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
         <stringProp name="ThreadGroup.duration">${attacker_duration}</stringProp>
-        <longProp name="ThreadGroup.delay">600</longProp>
+        <longProp name="ThreadGroup.delay">3600</longProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -335,13 +333,13 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="8-minute pause" enabled="true">
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="8-minute pause">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
           <stringProp name="ActionProcessor.duration">480000</stringProp>
         </TestAction>
         <hashTree/>
-        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="2-minute burst" enabled="true">
+        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="2-minute burst">
           <stringProp name="RunTime.seconds">120</stringProp>
         </RunTime>
         <hashTree>

@@ -37,8 +37,6 @@
           </elementProp>
         </collectionProp>
       </elementProp>
-      <boolProp name="TestPlan.functional_mode">false</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Customer">
@@ -62,7 +60,7 @@
           <stringProp name="TestPlan.comments">per thread</stringProp>
         </TestAction>
         <hashTree/>
-        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="8-minute ON" enabled="true">
+        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="8-minute ON">
           <stringProp name="RunTime.seconds">480</stringProp>
         </RunTime>
         <hashTree>
@@ -82,7 +80,7 @@
             <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
           </CookieManager>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Customer Traffic" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Customer Traffic">
             <boolProp name="TransactionController.parent">true</boolProp>
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
@@ -351,7 +349,7 @@
             <stringProp name="TestPlan.comments">20x customer 2600000 samples per hour * 8 samplers</stringProp>
           </ConstantThroughputTimer>
           <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Attacker Traffic" enabled="true">
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Attacker Traffic">
             <boolProp name="TransactionController.parent">true</boolProp>
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
