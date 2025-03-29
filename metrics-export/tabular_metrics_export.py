@@ -1,11 +1,16 @@
+"""
+Generate comma-separated values of max/median
+customer-/attacker-phase Service Units used.
+"""
+
 import requests
-import pandas as pd
 import statistics
 
 # Prometheus APIs
 PROM_QUERY_INSTANT_API = "http://127.0.0.1:30000/api/v1/query"
 PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
+# tests-specific data
 SCENARIOS = [
     # 'no_attacker',
     # 'ddos_5x',
@@ -17,10 +22,10 @@ SCENARIOS = [
     # 'state_aware_5x',
     # 'state_aware_10x',
     # 'state_aware_20x'
-    'ddos_20x_default_hpa_random_seed',
-    'ddos_20x_default_hpa_constant_seed',
-    'ddos_20x_randomized_hpa_random_seed',
-    'ddos_20x_randomized_hpa_constant_seed'
+    "ddos_20x_default_hpa_random_seed",
+    "ddos_20x_default_hpa_constant_seed",
+    "ddos_20x_randomized_hpa_random_seed",
+    "ddos_20x_randomized_hpa_constant_seed",
 ]
 START_TIMES = [
     # default autoscaling, random seed
@@ -69,14 +74,14 @@ START_TIMES = [
     # '1737332804784'
     # ddos 20x re-runs
     # default hpa + random seed
-    '1737410733094',
+    "1737410733094",
     # default hpa + constant seed
-    '1737418636106',
+    "1737418636106",
     # randomized hpa + random seed
-    '1737427121796',
+    "1737427121796",
     # randomized hpa + constant seed
-    '1737435021493'
-] # unix ms
+    "1737435021493",
+]  # unix ms
 END_TIMES = [
     # default autoscaling, random seed
     # '1736931742413',
@@ -124,22 +129,17 @@ END_TIMES = [
     # '1737340005053'
     # ddos 20x re-runs
     # default hpa + random seed
-    '1737417934508',
+    "1737417934508",
     # default hpa + constant seed
-    '1737425837273',
+    "1737425837273",
     # randomized hpa + random seed
-    '1737434323134',
+    "1737434323134",
     # randomized hpa + constant seed
-    '1737442222831'
-] # unix ms
-TIMEFRAMES = [
-    ('1m', 60),
-    ('5m', 300),
-    ('15m', 900),
-    ('30m', 1800),
-    ('1h', 3600)
-]
+    "1737442222831",
+]  # unix ms
+TIMEFRAMES = [("1m", 60), ("5m", 300), ("1h", 3600)]  # seconds
 ONE_HOUR_IN_S = 3600
+
 
 def query_service_units_used(timeframe):
     return f"""
@@ -152,29 +152,32 @@ def query_service_units_used(timeframe):
     )
     """
 
-if (len(START_TIMES) != len(END_TIMES)
+
+# check each test scenario has matching start/end times
+if (
+    len(START_TIMES) != len(END_TIMES)
     or len(START_TIMES) != len(SCENARIOS)
-    or len(SCENARIOS) != len(END_TIMES)):
-    raise ValueError("CONSTANTS length mismatch!")
+    or len(SCENARIOS) != len(END_TIMES)
+):
+    raise ValueError("SCENARIOS/START_TIMES/END_TIMES length mismatch!")
 
 for i in range(len(SCENARIOS)):
-    print(f'----------Scenario: {SCENARIOS[i]}----------')
+    print(f"scenario: {SCENARIOS[i]}; all metrics excluding timeframe in SUs")
     for j in range(len(TIMEFRAMES)):
-        # for k in range(len(QUERIES)):
-        params={
-            "query": f'{query_service_units_used(TIMEFRAMES[j][0])}',
-            "start": f'{float(START_TIMES[i])/1000.0}',
-            "end": f'{float(END_TIMES[i])/1000.0}',
-            "step":"5s"
+        params = {
+            "query": f"{query_service_units_used(TIMEFRAMES[j][0])}",
+            "start": f"{float(START_TIMES[i])/1000.0}",
+            "end": f"{float(END_TIMES[i])/1000.0}",
+            "step": "5s",
         }
         res = requests.get(PROM_QUERY_RANGE_API, params=params).json()
 
         # extract desired data: service units
-        values = res['data']['result'][0]['values']
+        values = res["data"]["result"][0]["values"]
         timestamps, target_values = [], []
         for value in values:
-            timestamps.append(value[0]) # take the raw second value
-            target_values.append(value[1])
+            timestamps.append(value[0])  # seconds
+            target_values.append(value[1])  # SUs
 
         # split SUs into customer/attacker phases (1 hour per each phase)
         # only append if value is applicable within the same test
@@ -182,26 +185,62 @@ for i in range(len(SCENARIOS)):
         # e.g., only 30-minute and after for the 30-minute timeframe
         customer_SUs, attacker_SUs = [], []
         for k in range(len(timestamps)):
-            if (float(END_TIMES[i])/1000.0 - timestamps[k] >= ONE_HOUR_IN_S
-                and timestamps[k] > float(START_TIMES[i])/1000.0 + TIMEFRAMES[j][1]):
+            if (
+                float(END_TIMES[i]) / 1000.0 - timestamps[k] >= ONE_HOUR_IN_S
+                and timestamps[k] > float(START_TIMES[i]) / 1000.0 + TIMEFRAMES[j][1]
+            ):
                 customer_SUs.append(int(target_values[k]))
-            if (float(END_TIMES[i])/1000.0 - timestamps[k] <= ONE_HOUR_IN_S
-                and timestamps[k] > float(START_TIMES[i])/1000.0 + ONE_HOUR_IN_S + TIMEFRAMES[j][1]):
+            if (
+                float(END_TIMES[i]) / 1000.0 - timestamps[k] <= ONE_HOUR_IN_S
+                and timestamps[k]
+                > float(START_TIMES[i]) / 1000.0 + ONE_HOUR_IN_S + TIMEFRAMES[j][1]
+            ):
                 attacker_SUs.append(int(target_values[k]))
-        print(f'Timeframe: {TIMEFRAMES[j][0]}')
+
+        # format output with column titles in first row,
+        # then all corresponding data in the subsequent rows;
+        # comma-separated to be easily portable into spreadsheet software
+        print("timeframe, max_cust, max_attk, med_cust, med_attk")
         try:
-            print(f'- Max customer service units = {max(customer_SUs)}')
+            print(TIMEFRAMES[j][0], end="")
         except Exception as e:
-            print(f'- {e}')
+            print(e, end="")
         try:
-            print(f'- Max attacker service units = {max(attacker_SUs)}')
+            print(max(customer_SUs), end="")
         except Exception as e:
-            print(f'- {e}')
+            print(e, end="")
         try:
-            print(f'- Median customer service units = {int(statistics.median(customer_SUs))}')
-        except Exception as e:
-            print(f'- {e}')
+            print(max(attacker_SUs), end="")
+        except:
+            print(e, end="")
         try:
-            print(f'- Median attacker service units = {int(statistics.median(attacker_SUs))}')
-        except Exception as e:
-            print(f'- {e}')
+            print(int(statistics.median(customer_SUs)), end="")
+        except:
+            print(e, end="")
+        try:
+            print(int(statistics.median(attacker_SUs)), end="")
+        except:
+            print(e, end="")
+        print("")
+
+        # print(f"Timeframe: {TIMEFRAMES[j][0]}")
+        # try:
+        #     print(f"- Max customer service units = {max(customer_SUs)}")
+        # except Exception as e:
+        #     print(f"- {e}")
+        # try:
+        #     print(f"- Max attacker service units = {max(attacker_SUs)}")
+        # except Exception as e:
+        #     print(f"- {e}")
+        # try:
+        #     print(
+        #         f"- Median customer service units = {int(statistics.median(customer_SUs))}"
+        #     )
+        # except Exception as e:
+        #     print(f"- {e}")
+        # try:
+        #     print(
+        #         f"- Median attacker service units = {int(statistics.median(attacker_SUs))}"
+        #     )
+        # except Exception as e:
+        #     print(f"- {e}")
