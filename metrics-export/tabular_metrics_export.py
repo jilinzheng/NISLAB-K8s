@@ -115,9 +115,9 @@ def query_service_units_used(timeframe):
     return f"""
     ceil(
         max(
-            sum(rate(container_cpu_usage_seconds_total{{namespace="default"}}[{timeframe}])) >
-            sum(container_memory_working_set_bytes{{namespace='default'}} / (4 * 1024 * 1024 * 1024)) or
-            sum(container_memory_working_set_bytes{{namespace='default'}} / (4 * 1024 * 1024 * 1024))
+            sum(rate(container_cpu_usage_seconds_total{{namespace="default"}}[{timeframe}])) / 0.5 >
+            sum(container_memory_working_set_bytes{{namespace='default'}} / (2 * 1024 * 1024 * 1024)) or
+            sum(container_memory_working_set_bytes{{namespace='default'}} / (2 * 1024 * 1024 * 1024))
         )
     )
     """
