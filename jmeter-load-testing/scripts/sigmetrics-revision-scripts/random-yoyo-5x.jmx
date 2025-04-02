@@ -27,12 +27,12 @@
           </elementProp>
           <elementProp name="customer_duration" elementType="Argument">
             <stringProp name="Argument.name">customer_duration</stringProp>
-            <stringProp name="Argument.value">1200</stringProp>
+            <stringProp name="Argument.value">7200</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="attacker_duration" elementType="Argument">
             <stringProp name="Argument.name">attacker_duration</stringProp>
-            <stringProp name="Argument.value">600</stringProp>
+            <stringProp name="Argument.value">3600</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -55,13 +55,19 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+        </CookieManager>
+        <hashTree/>
         <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Precise Throughput Dummy Sampler">
           <boolProp name="displayJMeterProperties">false</boolProp>
           <boolProp name="displayJMeterVariables">false</boolProp>
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree>
-          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="130000 samples per hour">
+          <PreciseThroughputTimer guiclass="TestBeanGUI" testclass="PreciseThroughputTimer" testname="43333.33333 samples per hour">
             <doubleProp>
               <name>allowedThroughputSurplus</name>
               <value>1.0</value>
@@ -70,7 +76,7 @@
             <intProp name="exactLimit">10000</intProp>
             <doubleProp>
               <name>throughput</name>
-              <value>130000.0</value>
+              <value>43333.33333</value>
               <savedValue>0.0</savedValue>
             </doubleProp>
             <intProp name="throughputPeriod">3600</intProp>
@@ -81,18 +87,12 @@
           </PreciseThroughputTimer>
           <hashTree/>
         </hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-          <collectionProp name="CookieManager.cookies"/>
-          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
-        </CookieManager>
-        <hashTree/>
-        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Customer Traffic" enabled="true">
+        <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Customer Traffic">
           <boolProp name="TransactionController.parent">true</boolProp>
           <boolProp name="TransactionController.includeTimers">false</boolProp>
         </TransactionController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Home" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Home">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -107,7 +107,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get Category" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get Category">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">category</stringProp>
               <stringProp name="RegexExtractor.regex">category=([0-9]*)</stringProp>
@@ -118,7 +118,7 @@
             </RegexExtractor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -148,7 +148,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List Products" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List Products">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -163,7 +163,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get product id" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get product id">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">product_id</stringProp>
               <stringProp name="RegexExtractor.regex">&lt;input type=&apos;hidden&apos; name=&quot;productid&quot; value=&quot;([0-9]*)&quot;&gt;</stringProp>
@@ -173,7 +173,7 @@
               <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
             </RegexExtractor>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get page_id" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get page_id">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">page_id</stringProp>
               <stringProp name="RegexExtractor.regex">page=([0-9]*)&quot;&gt;[0-9]*&lt;</stringProp>
@@ -184,7 +184,7 @@
             </RegexExtractor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Look at Product" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Look at Product">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -199,7 +199,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Product to Cart" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Product to Cart">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -229,7 +229,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List Products with different page" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List Products with different page">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -244,7 +244,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get product id" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get product id">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">product_id</stringProp>
               <stringProp name="RegexExtractor.regex">&lt;input type=&apos;hidden&apos; name=&quot;productid&quot; value=&quot;([0-9]*)&quot;&gt;</stringProp>
@@ -254,7 +254,7 @@
               <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
             </RegexExtractor>
             <hashTree/>
-            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get page_id" enabled="true">
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get page_id">
               <stringProp name="RegexExtractor.useHeaders">false</stringProp>
               <stringProp name="RegexExtractor.refname">page_id</stringProp>
               <stringProp name="RegexExtractor.regex">page=([0-9]*)&quot;&gt;[0-9]*&lt;</stringProp>
@@ -265,7 +265,7 @@
             </RegexExtractor>
             <hashTree/>
           </hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Product 2 to Cart" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add Product 2 to Cart">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -295,7 +295,7 @@
             </elementProp>
           </HTTPSamplerProxy>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Logout" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Logout">
             <intProp name="HTTPSampler.connect_timeout">50000</intProp>
             <intProp name="HTTPSampler.response_timeout">30000</intProp>
             <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -325,7 +325,7 @@
         <stringProp name="ThreadGroup.num_threads">${num_attackers}</stringProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
         <stringProp name="ThreadGroup.duration">${attacker_duration}</stringProp>
-        <longProp name="ThreadGroup.delay">600</longProp>
+        <longProp name="ThreadGroup.delay">3600</longProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">false</boolProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -335,6 +335,12 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+        </CookieManager>
+        <hashTree/>
         <TestAction guiclass="TestActionGui" testclass="TestAction" testname="8-minute pause">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
@@ -345,22 +351,29 @@
           <stringProp name="RunTime.seconds">120</stringProp>
         </RunTime>
         <hashTree>
-          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="650000 samples per hour" enabled="true">
-            <doubleProp>
-              <name>throughput</name>
-              <value>10833.33333</value>
-              <savedValue>0.0</savedValue>
-            </doubleProp>
-            <intProp name="calcMode">4</intProp>
-            <stringProp name="TestPlan.comments">5x customer</stringProp>
-          </ConstantThroughputTimer>
-          <hashTree/>
-          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Attacker Traffic" enabled="true">
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Constant Throughput Dummy Sampler">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">false</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree>
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="216666.66666 samples per hour">
+              <doubleProp>
+                <name>throughput</name>
+                <value>3611.11111</value>
+                <savedValue>0.0</savedValue>
+              </doubleProp>
+              <intProp name="calcMode">2</intProp>
+              <stringProp name="TestPlan.comments">5x customer</stringProp>
+            </ConstantThroughputTimer>
+            <hashTree/>
+          </hashTree>
+          <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Attacker Traffic">
             <boolProp name="TransactionController.parent">true</boolProp>
             <boolProp name="TransactionController.includeTimers">false</boolProp>
           </TransactionController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Home" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Home">
               <intProp name="HTTPSampler.connect_timeout">50000</intProp>
               <intProp name="HTTPSampler.response_timeout">30000</intProp>
               <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -375,7 +388,7 @@
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get Category" enabled="true">
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get Category">
                 <stringProp name="RegexExtractor.useHeaders">false</stringProp>
                 <stringProp name="RegexExtractor.refname">category</stringProp>
                 <stringProp name="RegexExtractor.regex">category=([0-9]*)</stringProp>
@@ -386,7 +399,7 @@
               </RegexExtractor>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login">
               <intProp name="HTTPSampler.connect_timeout">50000</intProp>
               <intProp name="HTTPSampler.response_timeout">30000</intProp>
               <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -416,7 +429,7 @@
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree/>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List Products" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="List Products">
               <intProp name="HTTPSampler.connect_timeout">50000</intProp>
               <intProp name="HTTPSampler.response_timeout">30000</intProp>
               <stringProp name="HTTPSampler.domain">${hostname}</stringProp>
@@ -431,7 +444,7 @@
               </elementProp>
             </HTTPSamplerProxy>
             <hashTree>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get product id" enabled="true">
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Get product id">
                 <stringProp name="RegexExtractor.useHeaders">false</stringProp>
                 <stringProp name="RegexExtractor.refname">product_id</stringProp>
                 <stringProp name="RegexExtractor.regex">&lt;input type=&apos;hidden&apos; name=&quot;productid&quot; value=&quot;([0-9]*)&quot;&gt;</stringProp>
