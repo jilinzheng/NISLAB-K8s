@@ -70,26 +70,33 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="8-minute ON">
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+        </CookieManager>
+        <hashTree/>
+        <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="8-minute ON" enabled="true">
           <stringProp name="RunTime.seconds">480</stringProp>
         </RunTime>
         <hashTree>
-          <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="130000 TRANSACTIONS per hour">
-            <doubleProp>
-              <name>throughput</name>
-              <value>17333.33333</value>
-              <savedValue>0.0</savedValue>
-            </doubleProp>
-            <intProp name="calcMode">2</intProp>
-            <stringProp name="TestPlan.comments">customer base rate 130000 samples per hour * 8 samplers</stringProp>
-          </ConstantThroughputTimer>
-          <hashTree/>
-          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
-            <collectionProp name="CookieManager.cookies"/>
-            <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
-          </CookieManager>
-          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Constant Throughput Dummy Sampler" enabled="true">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">false</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree>
+            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="43333.33333 samples per hour" enabled="true">
+              <doubleProp>
+                <name>throughput</name>
+                <value>722.22222</value>
+                <savedValue>0.0</savedValue>
+              </doubleProp>
+              <intProp name="calcMode">2</intProp>
+              <stringProp name="TestPlan.comments">customer</stringProp>
+            </ConstantThroughputTimer>
+            <hashTree/>
+          </hashTree>
           <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Customer Traffic" enabled="true">
             <boolProp name="TransactionController.parent">true</boolProp>
             <boolProp name="TransactionController.includeTimers">false</boolProp>
@@ -331,7 +338,7 @@
         </TestAction>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Sliding Window Attacker" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Sliding Window Attacker">
         <stringProp name="ThreadGroup.num_threads">${num_attackers}</stringProp>
         <intProp name="ThreadGroup.ramp_time">0</intProp>
         <stringProp name="ThreadGroup.duration">${attacker_duration}</stringProp>
@@ -345,6 +352,12 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+        </CookieManager>
+        <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Query sliding_window_attack" enabled="true">
           <stringProp name="TestPlan.comments">whether to inject traffic; through Prometheus scrape target external-metrics-server</stringProp>
           <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
@@ -389,7 +402,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="15-Second Timer">
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="15-Second Timer" enabled="true">
             <stringProp name="ConstantTimer.delay">15000</stringProp>
             <stringProp name="TestPlan.comments">query every 15 seconds to match Prom. scrape interval; 5 minutes cost constraint is accounted for in external metrics server</stringProp>
           </ConstantTimer>
@@ -408,20 +421,27 @@
           <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
-          <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="1-minute burst">
+          <RunTime guiclass="RunTimeGui" testclass="RunTime" testname="1-minute burst" enabled="true">
             <stringProp name="RunTime.seconds">60</stringProp>
           </RunTime>
           <hashTree>
-            <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="650000 TRANSACTIONS per hour">
-              <doubleProp>
-                <name>throughput</name>
-                <value>86666.66664</value>
-                <savedValue>0.0</savedValue>
-              </doubleProp>
-              <intProp name="calcMode">2</intProp>
-              <stringProp name="TestPlan.comments">5x customer 650000 samples per hour * 8 samples</stringProp>
-            </ConstantThroughputTimer>
-            <hashTree/>
+            <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Constant Throughput Dummy Sampler" enabled="true">
+              <boolProp name="displayJMeterProperties">false</boolProp>
+              <boolProp name="displayJMeterVariables">false</boolProp>
+              <boolProp name="displaySystemProperties">false</boolProp>
+            </DebugSampler>
+            <hashTree>
+              <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="216666.66666 samples per hour" enabled="true">
+                <doubleProp>
+                  <name>throughput</name>
+                  <value>3611.11111</value>
+                  <savedValue>0.0</savedValue>
+                </doubleProp>
+                <intProp name="calcMode">2</intProp>
+                <stringProp name="TestPlan.comments">5x customer</stringProp>
+              </ConstantThroughputTimer>
+              <hashTree/>
+            </hashTree>
             <TransactionController guiclass="TransactionControllerGui" testclass="TransactionController" testname="Attacker Traffic" enabled="true">
               <boolProp name="TransactionController.parent">true</boolProp>
               <boolProp name="TransactionController.includeTimers">false</boolProp>

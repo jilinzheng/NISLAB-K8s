@@ -27,4 +27,5 @@ jmeter-load-testing/sigmetrics-revision-tests
 openshift
 *.txt
 jmeter-load-testing/results.csv
+jmeter-load-testing/tests
 venv

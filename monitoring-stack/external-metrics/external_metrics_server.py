@@ -105,6 +105,7 @@ last_service_unit_amount = -1
 
 def get_state_aware_attack():
     global last_service_unit_amount
+    STATE_AWARE_ATTACK_THRESHOLD = 10
 
     res = requests.get(
         PROM_QUERY_RANGE_API,
@@ -118,10 +119,10 @@ def get_state_aware_attack():
     res_values = res["data"]["result"][0]["values"]
     new_service_unit_amount = int(res_values[0][1])
 
-    # decrease detected + original number of SUs > 5
+    # decrease detected + original number of SUs > threshold
     if (
         last_service_unit_amount > new_service_unit_amount
-        and last_service_unit_amount > 5
+        and last_service_unit_amount > STATE_AWARE_ATTACK_THRESHOLD
     ):
         last_service_unit_amount = new_service_unit_amount
         # attacker should inject traffic burst
@@ -137,7 +138,7 @@ time_since_last_attack = time.time()
 
 def get_sliding_window_attack():
     global time_since_last_attack
-    SLIDING_WINDOW_ATTACK_THRESHOLD_SU = 5
+    SLIDING_WINDOW_ATTACK_THRESHOLD_SU = 10
     res = requests.get(
         PROM_QUERY_RANGE_API,
         params=query_service_units(
@@ -152,7 +153,7 @@ def get_sliding_window_attack():
 
     # >=5 minutes elapsed and below or equal to attack threshold
     if (
-        time.time() - time_since_last_attack > 300
+        time.time() - time_since_last_attack >= 300
         and five_min_rolling_avg_service_units <= SLIDING_WINDOW_ATTACK_THRESHOLD_SU
     ):
         # reset last attack time
