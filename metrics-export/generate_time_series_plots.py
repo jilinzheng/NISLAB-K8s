@@ -10,16 +10,16 @@ from glob import glob
 
 def format_title(filename):
     filename = filename.split("\\")[-1]
-    # Remove .csv extension
+    # remove .csv extension
     filename = filename.replace(".csv", "")
 
-    # Split into tokens
+    # split into tokens
     tokens = filename.split("_")
 
-    # Remove date
+    # remove date
     tokens = tokens[1:]
 
-    # Handle first token special cases
+    # handle first token special cases
     if tokens[0].lower() == "bursty":
         tokens[0] = "Bursty Customer"
     elif tokens[0].lower() == "onoff":
@@ -29,7 +29,7 @@ def format_title(filename):
     else:
         tokens[0] = tokens[0].capitalize()
 
-    # Capitalize remaining tokens if they start with a letter
+    # capitalize remaining tokens if they start with a letter
     seen_attack_type = False  # add 'Attacker' token
     for i in range(1, len(tokens)):
         if tokens[i][0].isalpha():
@@ -38,7 +38,7 @@ def format_title(filename):
             tokens[i] = f"Attacker {tokens[i]}"
             seen_attack_type = True
 
-    # Format the time unit token
+    # format the time unit token
     last_token = tokens[-1]
     if last_token[-1] in ["m", "h"]:
         number = last_token[:-1]
@@ -50,21 +50,21 @@ def format_title(filename):
     return " ".join(tokens)
 
 
-# Get all CSV files in the current directory
+# get all CSV files in the current directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Create a pattern to match directories starting with '25'
+# create a pattern to match directories starting with '25'
 dir_pattern = os.path.join(script_dir, "25*")
 print(dir_pattern)
 
-# List to store all found CSV files
+# list to store all found CSV files
 csv_files = []
 
-# Find all directories that start with '25'
+# find all directories that start with '25'
 matching_dirs = [d for d in glob(dir_pattern) if os.path.isdir(d)]
 print(matching_dirs)
 
-# Search each matching directory for CSV files
+# search each matching directory for CSV files
 for directory in matching_dirs:
     # Use recursive glob to find all CSV files in this directory and its subdirectories
     pattern = os.path.join(directory, "*.csv")
@@ -75,30 +75,30 @@ for directory in matching_dirs:
     csv_files.extend(files)
 print(csv_files)
 
-# Create a directory for plots if it doesn't exist
+# create a directory for plots if it doesn't exist
 plots_dir = "plots"
 if not os.path.exists(plots_dir):
     os.makedirs(plots_dir)
 
-# Create plots for each CSV file
+# create plots for each CSV file
 for csv_file in csv_files:
 
-    # Read the CSV file with header
+    # read the CSV file with header
     data = pd.read_csv(csv_file)
 
-    # Get column names
+    # get column names
     x_col = data.columns[0]
     y_col = data.columns[1]
 
-    # Convert the x-axis to datetime
+    # convert the x-axis to datetime
     data[x_col] = pd.to_datetime(data[x_col])
 
-    # Calculate elapsed time in minutes from the first timestamp
+    # calculate elapsed time in minutes from the first timestamp
     data["Elapsed Minutes"] = (
         data[x_col] - data[x_col].iloc[0]
     ).dt.total_seconds() / 60
 
-    # Create the plot
+    # create the plot
     plt.figure(figsize=(12, 6))
     plt.plot(
         data["Elapsed Minutes"], data[y_col], marker=".", markersize=3, linestyle="-"
@@ -107,13 +107,13 @@ for csv_file in csv_files:
     plt.xlabel("Elapsed Time (minutes)")
     plt.ylabel(y_col)
 
-    # Set x-axis limits from 0 to 120 minutes
+    # set x-axis limits from 0 to 120 minutes
     plt.xlim(0, 120)
 
-    # Set ticks every 10 minutes
+    # set ticks every 10 minutes
     plt.xticks(range(0, 121, 10))
 
-    # Save the plot with tight layout
+    # save the plot with tight layout
     plt.tight_layout()
     plt.savefig(f"{csv_file[:-4]}.png")
     plt.close()

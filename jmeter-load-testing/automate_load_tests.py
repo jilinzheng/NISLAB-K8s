@@ -5,67 +5,13 @@ import shutil
 
 # List of filenames
 script_list = [
-    # "random-yoyo-5x.jmx",
-    # "random-yoyo-10x.jmx",
-    # "random-yoyo-20x.jmx",
-    # "random-state-aware-5x.jmx",
-    # "random-state-aware-10x.jmx",
-    # "random-state-aware-20x.jmx",
-    # "random-sliding-window-5x.jmx",
-    # "random-sliding-window-10x.jmx",
-    # "random-sliding-window-20x.jmx",
-    # "onoff-yoyo-5x.jmx",
-    # "onoff-yoyo-10x.jmx",
-    # "onoff-yoyo-20x.jmx",
-    # "onoff-yoyo-overlap-5x.jmx",
-    # "onoff-yoyo-overlap-10x.jmx",
-    # "onoff-yoyo-overlap-20x.jmx",
-    # "onoff-state-aware-5x.jmx",
-    # "onoff-state-aware-10x.jmx",
-    # "onoff-state-aware-20x.jmx",
-    # "onoff-sliding-window-5x.jmx",
-    # "onoff-sliding-window-10x.jmx",
-    # "onoff-sliding-window-20x.jmx",
-    # "bursty-yoyo-5x.jmx",
-    # "bursty-yoyo-10x.jmx",
-    # "bursty-yoyo-20x.jmx",
-    # "bursty-state-aware-5x.jmx",
-    # "bursty-state-aware-10x.jmx",
-    # "bursty-state-aware-20x.jmx",
-    # "bursty-sliding-window-5x.jmx",
-    # "bursty-sliding-window-10x.jmx",
+    "bursty-sliding-window-5x.jmx",
+    "bursty-sliding-window-10x.jmx",
     "bursty-sliding-window-20x.jmx",
 ]
 output_dir_list = [
-    # "250330_random_yoyo_5x",
-    # "250330_random_yoyo_10x",
-    # "250330_random_yoyo_20x",
-    # "250330_random_state_aware_5x",
-    # "250330_random_state_aware_10x",
-    # "250330_random_state_aware_20x",
-    # "250330_random_sliding_window_5x",
-    # "250330_random_sliding_window_10x",
-    # "250330_random_sliding_window_20x",
-    # "250330_onoff_yoyo_5x",
-    # "250330_onoff_yoyo_10x",
-    # "250330_onoff_yoyo_20x",
-    # "250330_onoff_yoyo_overlap_5x",
-    # "250330_onoff_yoyo_overlap_10x",
-    # "250330_onoff_yoyo_overlap_20x",
-    # "250330_onoff_state_aware_5x",
-    # "250330_onoff_state_aware_10x",
-    # "250330_onoff_state_aware_20x",
-    # "250330_onoff_sliding_window_5x",
-    # "250330_onoff_sliding_window_10x",
-    # "250330_onoff_sliding_window_20x",
-    # "250330_bursty_yoyo_5x",
-    # "250330_bursty_yoyo_10x",
-    # "250330_bursty_yoyo_20x",
-    # "250330_bursty_state_aware_5x",
-    # "250330_bursty_state_aware_10x",
-    # "250330_bursty_state_aware_20x",
-    # "250330_bursty_sliding_window_5x",
-    # "250330_bursty_sliding_window_10x",
+    "250330_bursty_sliding_window_5x",
+    "250330_bursty_sliding_window_10x",
     "250330_bursty_sliding_window_20x",
 ]
 
@@ -83,9 +29,7 @@ for file1, file2 in zip(script_list, output_dir_list):
     # Construct the full paths
     result_file = os.path.join(script_dir, "results.csv")
     output_dir = os.path.join(script_dir, file2)
-    script_file = os.path.join(
-        script_dir, "scripts", "sigmetrics-revision-scripts", file1
-    )
+    script_file = os.path.join(script_dir, "scripts", file1)
 
     # Command 1: Run the JMeter command
     jmeter_command = [
@@ -94,7 +38,7 @@ for file1, file2 in zip(script_list, output_dir_list):
         "-t",
         script_file,
         "-l",
-        f"results.csv",
+        "results.csv",
         "-e",
         "-o",
         output_dir,

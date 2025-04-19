@@ -1,7 +1,7 @@
 """
 Query Prometheus HTTP API for
-- rate of total, successful, and failed requests over time
 - service units and median service units over time
+- rate of total, successful, and failed requests over time
 and writes the time series data out to a .csv.
 """
 
@@ -16,67 +16,16 @@ PROM_QUERY_RANGE_API = "http://127.0.0.1:30000/api/v1/query_range"
 
 # tests-specific data
 SCENARIOS = [
-    "random-yoyo-5x",
-    "random-yoyo-10x",
-    "random-yoyo-20x",
-    "random-sliding-window-5x",
-    "random-sliding-window-10x",
-    "random-sliding-window-20x",
-    "onoff-yoyo-5x",
-    "onoff-yoyo-10x",
-    "onoff-yoyo-20x",
-    "onoff-yoyo-overlap-5x",
-    "onoff-yoyo-overlap-10x",
-    "onoff-yoyo-overlap-20x",
-    "onoff-sliding-window-5x",
-    "onoff-sliding-window-10x",
-    "onoff-sliding-window-20x",
-    "bursty-yoyo-5x",
-    "bursty-yoyo-10x",
-    "bursty-yoyo-20x",
     "bursty-sliding-window-5x",
     "bursty-sliding-window-10x",
+    "bursty-sliding-window-20x",
 ]
 START_TIMES = [
-    "1743388434177",
-    "1743396260685",
-    "1743404094466",
-    "1743435160179",
-    "1743442988977",
-    "1743450825328",
-    "1743458667376",
-    "1743466490882",
-    "1743482997290",
-    "1743490838900",
-    "1743498662938",
-    "1743506494395",
-    "1743514329429",
-    "1743522154112",
-    "1743529986368",
-    "1743537824247",
-    "1743545650903",
     "1743553485533",
     "1743561323198",
     "1743569150891",
 ]  # unix ms
 END_TIMES = [
-    "1743395634516",
-    "1743403461225",
-    "1743411295390",
-    "1743442360508",
-    "1743450189265",
-    "1743458025837",
-    "1743465867730",
-    "1743473691237",
-    "1743490197803",
-    "1743498039713",
-    "1743505863651",
-    "1743513695647",
-    "1743521529630",
-    "1743529354326",
-    "1743537186604",
-    "1743545024591",
-    "1743552851550",
     "1743560686115",
     "1743568523510",
     "1743576351226",
@@ -100,9 +49,9 @@ def query_service_units_used(timeframe):
     return f"""
     ceil(
         max(
-            sum(rate(container_cpu_usage_seconds_total{{namespace="default"}}[{timeframe}])) / 0.5 >
-            sum(container_memory_working_set_bytes{{namespace='default'}} / (2 * 1024 * 1024 * 1024)) or
-            sum(container_memory_working_set_bytes{{namespace='default'}} / (2 * 1024 * 1024 * 1024))
+            sum(rate(container_cpu_usage_seconds_total{{namespace="default"}}[{timeframe}])) >
+            sum(container_memory_working_set_bytes{{namespace='default'}} / (4 * 1024 * 1024 * 1024)) or
+            sum(container_memory_working_set_bytes{{namespace='default'}} / (4 * 1024 * 1024 * 1024))
         )
     )
     """
@@ -157,6 +106,5 @@ for i in range(len(SCENARIOS)):
             df = pd.DataFrame(
                 {"Timestamp": timestamps, f"{QUERIES[k][1]}": target_values}
             )
-            # df.to_excel('./prom_res.xlsx', index=False, engine='openpyxl')
             df.to_csv(filename, index=False)
             print(f"{filename} successfully written!")
