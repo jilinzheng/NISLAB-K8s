@@ -1,4 +1,6 @@
-# NISLAB K8s EDoS Resources
+# Kubernetes (K8s) Economic-Denial-of-Sustainability (EDoS) Local Test Environment
+
+This repo contains resources to set up a local K8s environment to run and collect metrics on EDoS attacks. We utilize Docker Desktop's bundled K8s and deploy Prometheus, Grafana, and Istio as part of its monitoring stack. We use [TeaStore](https://github.com/DescartesResearch/TeaStore) for the target microservice application and JMeter for load generation. Additional notes are included after the installation instructions.
 
 ## Installation Instructions
 
